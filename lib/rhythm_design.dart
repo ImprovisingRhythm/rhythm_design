@@ -17,6 +17,7 @@ export 'components/bottom_navigation.dart';
 export 'components/bottom_navigation_scaffold.dart';
 export 'components/button.dart';
 export 'components/card.dart';
+export 'components/date_picker.dart';
 export 'components/empty_box.dart';
 export 'components/extended_list_view.dart';
 export 'components/input.dart';

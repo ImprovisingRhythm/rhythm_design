@@ -60,7 +60,7 @@ class ExtendedListView extends StatefulWidget {
 
 class ExtendedListViewState extends State<ExtendedListView> {
   final _scrollViewKey = GlobalKey();
-  final _listModel = ListModel();
+  final _listModel = _ListModel();
 
   void reset() {
     _listModel.reset();
@@ -213,7 +213,7 @@ class ExtendedListViewState extends State<ExtendedListView> {
             )),
           if (widget.onLoad != null)
             SliverToBoxAdapter(
-              child: ListenableBuilder<ListModel>(
+              child: ListenableBuilder<_ListModel>(
                 value: _listModel,
                 builder: (context, list, child) {
                   return AnimatedSize(
@@ -280,7 +280,7 @@ class _PaddingTopSliverDelegate extends SliverPersistentHeaderDelegate {
   }
 }
 
-class ListModel extends ChangeNotifier {
+class _ListModel extends ChangeNotifier {
   bool hasMore = true;
   bool locked = false;
   bool loading = false;
