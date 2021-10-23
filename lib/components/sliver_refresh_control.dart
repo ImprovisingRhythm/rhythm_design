@@ -1,7 +1,3 @@
-// Copyright 2014 The Flutter Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
 import 'dart:async';
 import 'dart:math';
 
@@ -27,22 +23,22 @@ class _SliverRefresh extends SingleChildRenderObjectWidget {
   // resting state when in the refreshing mode.
   final double refreshIndicatorLayoutExtent;
 
-  // _RenderCupertinoSliverRefresh will paint the child in the available
-  // space either way but this instructs the _RenderCupertinoSliverRefresh
+  // _RenderSliverRefresh will paint the child in the available
+  // space either way but this instructs the _RenderSliverRefresh
   // on whether to also occupy any layoutExtent space or not.
   final bool hasLayoutExtent;
 
   @override
-  _RenderCupertinoSliverRefresh createRenderObject(BuildContext context) {
-    return _RenderCupertinoSliverRefresh(
+  _RenderSliverRefresh createRenderObject(BuildContext context) {
+    return _RenderSliverRefresh(
       refreshIndicatorExtent: refreshIndicatorLayoutExtent,
       hasLayoutExtent: hasLayoutExtent,
     );
   }
 
   @override
-  void updateRenderObject(BuildContext context,
-      covariant _RenderCupertinoSliverRefresh renderObject) {
+  void updateRenderObject(
+      BuildContext context, covariant _RenderSliverRefresh renderObject) {
     renderObject
       ..refreshIndicatorLayoutExtent = refreshIndicatorLayoutExtent
       ..hasLayoutExtent = hasLayoutExtent;
@@ -55,9 +51,9 @@ class _SliverRefresh extends SingleChildRenderObjectWidget {
 //
 // The [layoutExtentOffsetCompensation] field keeps internal accounting to
 // prevent scroll position jumps as the [layoutExtent] is set and unset.
-class _RenderCupertinoSliverRefresh extends RenderSliver
+class _RenderSliverRefresh extends RenderSliver
     with RenderObjectWithChildMixin<RenderBox> {
-  _RenderCupertinoSliverRefresh({
+  _RenderSliverRefresh({
     required double refreshIndicatorExtent,
     required bool hasLayoutExtent,
     RenderBox? child,

@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import '../app/theme_provider.dart';
 import 'activity_indicator.dart';
 import 'empty_box.dart';
+import 'listenable_builder.dart';
 import 'null_widget.dart';
 import 'sliver_refresh_control.dart';
 
@@ -18,7 +19,7 @@ class ExtendedListView extends StatefulWidget {
   const ExtendedListView({
     Key? key,
     this.controller,
-    this.avoidKeyboard = false,
+    this.keyboardAvoiding = false,
     this.reverse = false,
     this.primary,
     this.physics,
@@ -33,11 +34,11 @@ class ExtendedListView extends StatefulWidget {
     this.forceRefreshTime = const Duration(milliseconds: 800),
     this.onRefresh,
     this.onLoad,
-  })  : assert(!avoidKeyboard || controller != null),
+  })  : assert(!keyboardAvoiding || controller != null),
         super(key: key);
 
   final ScrollController? controller;
-  final bool avoidKeyboard;
+  final bool keyboardAvoiding;
   final bool reverse;
   final bool? primary;
   final ScrollPhysics? physics;
@@ -59,58 +60,37 @@ class ExtendedListView extends StatefulWidget {
 
 class ExtendedListViewState extends State<ExtendedListView> {
   final _scrollViewKey = GlobalKey();
-
-  bool _isLoading = false;
-  bool _isEnded = false;
-  bool _isLocked = false;
+  final _listModel = ListModel();
 
   void reset() {
-    _isLoading = false;
-    _isEnded = false;
-    _isLocked = false;
+    _listModel.reset();
   }
 
   Future<void> _onScroll(ScrollNotification notification) async {
+    if (_listModel.loading || !_listModel.hasMore) {
+      return;
+    }
+
     final metrics = notification.metrics;
 
     if (notification is UserScrollNotification) {
       if (notification.direction == ScrollDirection.reverse) {
-        _isLocked = false;
+        _listModel.unlock();
       }
     }
 
-    if (_isEnded || _isLoading || _isLocked) {
+    if (_listModel.locked) {
       return;
     }
 
     if (metrics.outOfRange && metrics.pixels >= metrics.maxScrollExtent) {
-      if (mounted) {
-        setState(() {
-          _isLoading = true;
-          _isLocked = true;
-        });
-      }
+      _listModel.lock();
+      _listModel.startLoading();
 
       try {
-        final hasNext = await widget.onLoad!();
-
-        if (mounted) {
-          setState(() {
-            _isLoading = false;
-
-            if (!hasNext) {
-              _isEnded = true;
-            }
-          });
-        }
-      } catch (error) {
-        if (mounted) {
-          setState(() {
-            _isLoading = false;
-          });
-        }
-
-        rethrow;
+        _listModel.hasMore = await widget.onLoad!();
+      } finally {
+        _listModel.stopLoading();
       }
     }
   }
@@ -233,22 +213,27 @@ class ExtendedListViewState extends State<ExtendedListView> {
             )),
           if (widget.onLoad != null)
             SliverToBoxAdapter(
-              child: AnimatedSize(
-                duration: _isLoading
-                    ? const Duration(microseconds: 1)
-                    : _kAutoScrollDuration,
-                curve: Curves.decelerate,
-                clipBehavior: Clip.none,
-                child: _isLoading
-                    ? const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 12),
-                        child: ActivityIndicator(),
-                      )
-                    : const NullWidget(),
+              child: ListenableBuilder<ListModel>(
+                value: _listModel,
+                builder: (context, list, child) {
+                  return AnimatedSize(
+                    duration: list.loading
+                        ? const Duration(microseconds: 1)
+                        : _kAutoScrollDuration,
+                    curve: Curves.decelerate,
+                    clipBehavior: Clip.none,
+                    child: list.loading
+                        ? const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 12),
+                            child: ActivityIndicator(),
+                          )
+                        : const NullWidget(),
+                  );
+                },
               ),
             ),
           if (widget.endSpacing > 0) SliverEmptyBox(extent: widget.endSpacing),
-          if (widget.avoidKeyboard)
+          if (widget.keyboardAvoiding)
             SliverToBoxAdapter(
               child: AnimatedContainer(
                 onEnd: () {
@@ -292,5 +277,36 @@ class _PaddingTopSliverDelegate extends SliverPersistentHeaderDelegate {
   @override
   bool shouldRebuild(_PaddingTopSliverDelegate oldDelegate) {
     return false;
+  }
+}
+
+class ListModel extends ChangeNotifier {
+  bool hasMore = true;
+  bool locked = false;
+  bool loading = false;
+
+  void startLoading() {
+    loading = true;
+    notifyListeners();
+  }
+
+  void stopLoading() {
+    loading = false;
+    notifyListeners();
+  }
+
+  void lock() {
+    locked = true;
+  }
+
+  void unlock() {
+    locked = false;
+  }
+
+  void reset() {
+    hasMore = true;
+    locked = false;
+    loading = false;
+    notifyListeners();
   }
 }
