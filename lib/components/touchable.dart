@@ -5,6 +5,7 @@ import '../utils/platform_features.dart';
 
 const _kForwardDuration = Duration(milliseconds: 150);
 const _kReverseDuration = Duration(milliseconds: 150);
+const _kHighlightDuration = Duration(milliseconds: 150);
 const _kReleaseDelay = Duration(milliseconds: 100);
 
 class Touchable extends StatefulWidget {
@@ -18,6 +19,7 @@ class Touchable extends StatefulWidget {
     this.highlightShape = BoxShape.rectangle,
     this.duration = _kForwardDuration,
     this.reverseDuration = _kReverseDuration,
+    this.releaseDelay = _kReleaseDelay,
     this.onPressed,
   }) : super(key: key);
 
@@ -29,6 +31,7 @@ class Touchable extends StatefulWidget {
   final BoxShape highlightShape;
   final Duration duration;
   final Duration reverseDuration;
+  final Duration releaseDelay;
   final VoidCallback? onPressed;
 
   @override
@@ -97,19 +100,24 @@ class TouchableState extends State<Touchable>
     }
   }
 
-  Future<void> _handleTapDown(TapDownDetails details) async {
+  void _handleTapDown(TapDownDetails details) {
     _forwardingTicker = _controller.forward();
   }
 
-  Future<void> _handleTapUp(TapUpDetails details) async {
+  void _handleTapUp(TapUpDetails details) {
     if (widget.haptic) {
       _releaseHapticFeedback();
     }
 
-    Future.delayed(_kReleaseDelay, widget.onPressed);
+    Future.delayed(widget.releaseDelay, widget.onPressed);
 
-    await _forwardingTicker;
-    await _controller.reverse();
+    _forwardingTicker?.then((_) {
+      if (widget.highlightColor != null) {
+        Future.delayed(_kHighlightDuration, () => _controller.reverse());
+      } else {
+        _controller.reverse();
+      }
+    });
   }
 
   void _handleTapCancel() {
