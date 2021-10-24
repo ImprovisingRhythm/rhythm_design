@@ -5,6 +5,7 @@ export 'package:flutter/foundation.dart';
 export 'package:flutter/gestures.dart';
 export 'package:flutter/services.dart';
 export 'package:flutter/widgets.dart' hide BottomNavigationBarItem;
+export 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 export 'app/rhythm_app.dart';
 export 'app/theme_provider.dart';
@@ -16,6 +17,7 @@ export 'components/blur_box.dart';
 export 'components/bottom_navigation.dart';
 export 'components/bottom_navigation_scaffold.dart';
 export 'components/button.dart';
+export 'components/cached_network_image.dart';
 export 'components/card.dart';
 export 'components/date_picker.dart';
 export 'components/empty_box.dart';

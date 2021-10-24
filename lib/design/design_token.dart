@@ -19,6 +19,7 @@ abstract class DesignToken {
 
   Color get primaryBackgroundColor;
   Color get secondaryBackgroundColor;
+  Color get imageBackgroundColor;
 
   Color get borderColor;
   Color get dividerColor;
