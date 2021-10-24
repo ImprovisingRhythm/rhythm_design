@@ -11,11 +11,11 @@ import 'package:flutter/widgets.dart';
 import '../../app/theme_provider.dart';
 import 'text_selection_toolbar_button.dart';
 
-const double _kToolbarHeight = 47.0;
-const double _kToolbarContentDistance = 8.0;
-const double _kToolbarScreenPadding = 8.0;
-const Size _kToolbarArrowSize = Size(14.0, 7.0);
-const Radius _kToolbarBorderRadius = Radius.circular(10);
+const _kToolbarHeight = 47.0;
+const _kToolbarContentDistance = 8.0;
+const _kToolbarScreenPadding = 8.0;
+const _kToolbarArrowSize = Size(14.0, 7.0);
+const _kToolbarBorderRadius = Radius.circular(12.0);
 
 /// The type for a Function that builds a toolbar's container with the given
 /// child.

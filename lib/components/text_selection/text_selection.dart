@@ -9,22 +9,26 @@ import 'package:flutter/widgets.dart';
 
 import '../../app/theme_provider.dart';
 import '../../localizations/rhythm.dart';
+import '../../utils/ui_designer.dart';
+import '../null_widget.dart';
 import 'text_selection_toolbar.dart';
 import 'text_selection_toolbar_button.dart';
 
 // Read off from the output on iOS 12. This color does not vary with the
 // application's theme color.
-const double _kSelectionHandleOverlap = 1.5;
+const _kSelectionHandleOverlap = 1.5;
 // Extracted from https://developer.apple.com/design/resources/.
-const double _kSelectionHandleRadius = 6;
+const _kSelectionHandleRadius = 6.0;
 
 // Minimal padding from tip of the selection toolbar arrow to horizontal edges of the
 // screen. Eyeballed value.
-const double _kArrowScreenPadding = 26.0;
+const _kArrowScreenPadding = 26.0;
+
+const _kToolbarHeight = 47.0;
 
 // Generates the child that's passed into CupertinoTextSelectionToolbar.
-class __TextSelectionControlsToolbar extends StatefulWidget {
-  const __TextSelectionControlsToolbar({
+class _TextSelectionControlsToolbar extends StatefulWidget {
+  const _TextSelectionControlsToolbar({
     Key? key,
     required this.clipboardStatus,
     required this.endpoints,
@@ -48,12 +52,12 @@ class __TextSelectionControlsToolbar extends StatefulWidget {
   final double textLineHeight;
 
   @override
-  __TextSelectionControlsToolbarState createState() =>
-      __TextSelectionControlsToolbarState();
+  _TextSelectionControlsToolbarState createState() =>
+      _TextSelectionControlsToolbarState();
 }
 
-class __TextSelectionControlsToolbarState
-    extends State<__TextSelectionControlsToolbar> {
+class _TextSelectionControlsToolbarState
+    extends State<_TextSelectionControlsToolbar> {
   ClipboardStatusNotifier? _clipboardStatus;
 
   void _onChangedClipboardStatus() {
@@ -75,7 +79,7 @@ class __TextSelectionControlsToolbarState
   }
 
   @override
-  void didUpdateWidget(__TextSelectionControlsToolbar oldWidget) {
+  void didUpdateWidget(_TextSelectionControlsToolbar oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.clipboardStatus != widget.clipboardStatus) {
       if (_clipboardStatus != null) {
@@ -108,16 +112,17 @@ class __TextSelectionControlsToolbarState
     // Don't render the menu until the state of the clipboard is known.
     if (widget.handlePaste != null &&
         _clipboardStatus!.value == ClipboardStatus.unknown) {
-      return const SizedBox(width: 0.0, height: 0.0);
+      return const NullWidget();
     }
 
     assert(debugCheckHasMediaQuery(context));
-    final MediaQueryData mediaQuery = MediaQuery.of(context);
+
+    final mediaQuery = MediaQuery.of(context);
 
     // The toolbar should appear below the TextField when there is not enough
     // space above the TextField to show it, assuming there's always enough
     // space at the bottom in this case.
-    final double anchorX =
+    final anchorX =
         (widget.selectionMidpoint.dx + widget.globalEditableRegion.left).clamp(
       _kArrowScreenPadding + mediaQuery.padding.left,
       mediaQuery.size.width - mediaQuery.padding.right - _kArrowScreenPadding,
@@ -127,13 +132,14 @@ class __TextSelectionControlsToolbarState
     // selectionMidpoint.dy, since the caller
     // (TextSelectionOverlay._buildToolbar) does not know whether the toolbar is
     // going to be facing up or down.
-    final Offset anchorAbove = Offset(
+    final anchorAbove = Offset(
       anchorX,
       widget.endpoints.first.point.dy -
           widget.textLineHeight +
           widget.globalEditableRegion.top,
     );
-    final Offset anchorBelow = Offset(
+
+    final anchorBelow = Offset(
       anchorX,
       widget.endpoints.last.point.dy + widget.globalEditableRegion.top,
     );
@@ -170,13 +176,20 @@ class __TextSelectionControlsToolbarState
 
     // If there is no option available, build an empty widget.
     if (items.isEmpty) {
-      return const SizedBox(width: 0.0, height: 0.0);
+      return const NullWidget();
     }
+
+    final theme = ThemeProvider.of(context);
+    final divider = Container(
+      width: 1.0 / mediaQuery.devicePixelRatio,
+      height: _kToolbarHeight,
+      color: theme.selectionToolbarTextColor.withOpacity(0.15),
+    );
 
     return TextSelectionToolbar(
       anchorAbove: anchorAbove,
       anchorBelow: anchorBelow,
-      children: items,
+      children: intersperse(divider, items).toList(),
     );
   }
 }
@@ -216,6 +229,16 @@ class _TextSelectionHandlePainter extends CustomPainter {
 
 /// iOS Cupertino styled text selection controls.
 class _TextSelectionControls extends TextSelectionControls {
+  @override
+  bool canSelectAll(TextSelectionDelegate delegate) {
+    final value = delegate.textEditingValue;
+
+    return delegate.selectAllEnabled &&
+        value.text.isNotEmpty &&
+        !(value.selection.start == 0 &&
+            value.selection.end == value.text.length);
+  }
+
   /// Returns the size of the Cupertino handle.
   @override
   Size getHandleSize(double textLineHeight) {
@@ -225,7 +248,7 @@ class _TextSelectionControls extends TextSelectionControls {
     );
   }
 
-  /// Builder for iOS-style copy/paste text selection toolbar.
+  /// Builder for text selection toolbar.
   @override
   Widget buildToolbar(
     BuildContext context,
@@ -237,7 +260,7 @@ class _TextSelectionControls extends TextSelectionControls {
     ClipboardStatusNotifier clipboardStatus,
     Offset? lastSecondaryTapDownPosition,
   ) {
-    return __TextSelectionControlsToolbar(
+    return _TextSelectionControlsToolbar(
       clipboardStatus: clipboardStatus,
       endpoints: endpoints,
       globalEditableRegion: globalEditableRegion,
@@ -256,8 +279,13 @@ class _TextSelectionControls extends TextSelectionControls {
   /// Builder for iOS text selection edges.
   @override
   Widget buildHandle(
-      BuildContext context, TextSelectionHandleType type, double textLineHeight,
-      [VoidCallback? onTap, double? startGlyphHeight, double? endGlyphHeight]) {
+    BuildContext context,
+    TextSelectionHandleType type,
+    double textLineHeight, [
+    VoidCallback? onTap,
+    double? startGlyphHeight,
+    double? endGlyphHeight,
+  ]) {
     // iOS selection handles do not respond to taps.
 
     // We want a size that's a vertical line the height of the text plus a 18.0

@@ -113,9 +113,15 @@ class TouchableState extends State<Touchable>
 
     _forwardingTicker?.then((_) {
       if (widget.highlightColor != null) {
-        Future.delayed(_kHighlightDuration, () => _controller.reverse());
+        Future.delayed(_kHighlightDuration, () {
+          if (mounted) {
+            _controller.reverse();
+          }
+        });
       } else {
-        _controller.reverse();
+        if (mounted) {
+          _controller.reverse();
+        }
       }
     });
   }
