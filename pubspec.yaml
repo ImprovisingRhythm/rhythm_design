@@ -13,6 +13,7 @@ dependencies:
 
   eva_icons_flutter: ^3.0.2
   flutter_cache_manager: ^3.1.2
+  flutter_svg: ^0.23.0+1
 
 dev_dependencies:
   flutter_test:

@@ -20,7 +20,10 @@ class LightTheme extends DesignToken {
   Color get secondaryBackgroundColor => const Color(0xfff0f0f0);
 
   @override
-  Color get imageBackgroundColor => const Color(0xfffafafa);
+  Color get controlBackgroundColor => const Color(0xfff5f5f5);
+
+  @override
+  Color get imageBackgroundColor => controlBackgroundColor;
 
   @override
   Color get borderColor => const Color(0xfff5f5f5);

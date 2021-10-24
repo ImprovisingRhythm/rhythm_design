@@ -20,7 +20,10 @@ class DarkTheme extends DesignToken {
   Color get secondaryBackgroundColor => black;
 
   @override
-  Color get imageBackgroundColor => const Color(0xff202020);
+  Color get controlBackgroundColor => const Color(0xff202020);
+
+  @override
+  Color get imageBackgroundColor => controlBackgroundColor;
 
   @override
   Color get borderColor => const Color(0xff181818);
