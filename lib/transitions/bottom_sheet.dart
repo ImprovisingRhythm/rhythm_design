@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 
-class BottomModalRoute<T> extends ModalRoute<T> {
-  BottomModalRoute({
+class BottomSheetRoute<T> extends PageRoute<T> {
+  BottomSheetRoute({
     RouteSettings? settings,
     required this.builder,
     this.barrierDismissible = false,

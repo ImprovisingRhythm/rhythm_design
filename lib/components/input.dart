@@ -252,8 +252,6 @@ class Input extends StatefulWidget {
   /// The style to use for the text being edited.
   ///
   /// Also serves as a base for the [placeholder] text's style.
-  ///
-  /// Defaults to the standard iOS font style from [CupertinoTheme] if null.
   final TextStyle? style;
 
   /// {@macro flutter.widgets.editableText.strutStyle}
@@ -845,7 +843,7 @@ class _InputState extends State<Input>
     final theme = ThemeProvider.of(context);
     final media = MediaQuery.of(context);
 
-    final textStyle = theme.textStyle;
+    final textStyle = widget.style ?? theme.textStyle;
     final placeholderStyle =
         textStyle.merge(widget.placeholderStyle ?? theme.placeholderTextStyle);
 

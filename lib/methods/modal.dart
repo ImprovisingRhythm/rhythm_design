@@ -1,7 +1,7 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/widgets.dart' hide PopupRoute;
 
 import '../app/theme_provider.dart';
-import '../transitions/bottom_modal.dart';
+import '../transitions/bottom_sheet.dart';
 import '../transitions/fade_in_modal.dart';
 import '../utils/global_navigator.dart';
 
@@ -22,7 +22,7 @@ Future<T?> showModal<T>({
   );
 }
 
-Future<T?> showBottomModal<T>({
+Future<T?> showBottomSheet<T>({
   required WidgetBuilder builder,
   BuildContext? context,
   bool barrierDismissible = true,
@@ -31,7 +31,7 @@ Future<T?> showBottomModal<T>({
   context ??= GlobalNavigator.buildContext;
 
   return Navigator.of(context).push<T>(
-    BottomModalRoute(
+    BottomSheetRoute(
       builder: (context) {
         return Align(
           alignment: Alignment.bottomCenter,
