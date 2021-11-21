@@ -4,7 +4,6 @@ import '../../app/theme_provider.dart';
 import '../touchable.dart';
 
 const _kToolbarButtonHeight = 40.0;
-const _kToolbarArrowHeight = 7.0;
 const _kToolbarButtonPadding = EdgeInsets.symmetric(horizontal: 18.0);
 
 class TextSelectionToolbarButton extends StatelessWidget {
@@ -24,15 +23,11 @@ class TextSelectionToolbarButton extends StatelessWidget {
     return UnconstrainedBox(
       child: Touchable(
         highlightColor: theme.white.withOpacity(0.05),
-        duration: Duration.zero,
-        reverseDuration: Duration.zero,
-        releaseDelay: Duration.zero,
         onPressed: onPressed,
         child: Container(
           alignment: Alignment.center,
-          margin: const EdgeInsets.only(top: _kToolbarArrowHeight),
-          padding: _kToolbarButtonPadding,
           height: _kToolbarButtonHeight,
+          padding: _kToolbarButtonPadding,
           color: theme.transparent,
           child: FittedBox(
             child: Text(

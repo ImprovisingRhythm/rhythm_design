@@ -152,6 +152,7 @@ class _TextSelectionControlsToolbarState
       VoidCallback onPressed,
     ) {
       items.add(TextSelectionToolbarButton(
+        key: Key(text),
         onPressed: onPressed,
         text: text,
       ));

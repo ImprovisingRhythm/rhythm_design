@@ -12,7 +12,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import '../app/theme_provider.dart';
-import 'text_selection/text_selection.dart';
+import 'text_selection/text_selection_controls.dart';
 
 export 'package:flutter/services.dart'
     show
@@ -43,6 +43,7 @@ class _InputSelectionGestureDetectorBuilder
   @override
   void onSingleTapUp(TapUpDetails details) {
     editableText.hideToolbar();
+
     // Because TextSelectionGestureDetector listens to taps that happen on
     // widgets in front of it, tapping the clear button will also trigger
     // this handler. If the clear button widget recognizes the up event,
@@ -52,10 +53,12 @@ class _InputSelectionGestureDetectorBuilder
           .findRenderObject()! as RenderBox;
       final Offset localOffset =
           renderBox.globalToLocal(details.globalPosition);
+
       if (renderBox.hitTest(BoxHitTestResult(), position: localOffset)) {
         return;
       }
     }
+
     super.onSingleTapUp(details);
     _state._requestKeyboard();
     _state.widget.onTap?.call();
@@ -969,7 +972,10 @@ class _InputState extends State<Input>
               widthFactor: 1.0,
               heightFactor: 1.0,
               child: _addTextDependentAttachments(
-                  paddedEditable, textStyle, placeholderStyle),
+                paddedEditable,
+                textStyle,
+                placeholderStyle,
+              ),
             ),
           ),
         ),
