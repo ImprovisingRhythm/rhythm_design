@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 
 import '../app/theme_provider.dart';
 import '../utils/platform_features.dart';
-import 'blur_box.dart';
+import 'card.dart';
 import 'touchable.dart';
 
 class AppBarTitle extends StatelessWidget {
@@ -48,8 +48,9 @@ class AppBarButton extends StatelessWidget {
       highlightShape: BoxShape.circle,
       onPressed: onPressed,
       child: Container(
-        width: theme.appBarHeight,
-        height: theme.appBarHeight,
+        margin: EdgeInsets.symmetric(horizontal: theme.spacing / 2),
+        width: theme.appBarHeight - theme.spacing,
+        height: theme.appBarHeight - theme.spacing,
         alignment: Alignment.center,
         color: theme.transparent,
         child: Icon(
@@ -93,29 +94,20 @@ class AppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     final theme = ThemeProvider.of(context);
-    final appBarHeight = theme.appBarHeight + mediaQuery.viewPadding.top;
+
+    final resolvedAppBarHeight =
+        theme.appBarHeight + mediaQuery.viewPadding.top;
+
     final resolvedBackgroundColor =
         backgroundColor ?? theme.appBarBackgroundColor;
 
-    return BlurBox(
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 150),
-        height: appBarHeight,
-        alignment: Alignment.bottomCenter,
-        decoration: BoxDecoration(
-          color: glassify(resolvedBackgroundColor),
-          border: Border(
-            bottom: BorderSide(
-              width: 1,
-              color: theme.borderColor,
-            ),
-          ),
-        ),
-        child: SizedBox(
-          height: theme.appBarHeight,
-          child: Row(children: items),
-        ),
-      ),
+    return Card(
+      padding: EdgeInsets.only(top: mediaQuery.viewPadding.top),
+      height: resolvedAppBarHeight,
+      backgroundColor: glassify(resolvedBackgroundColor),
+      borderRadius: BorderRadius.zero,
+      blur: true,
+      child: Row(children: items),
     );
   }
 }

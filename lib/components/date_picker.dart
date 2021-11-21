@@ -6,7 +6,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 
 import '../app/theme_provider.dart';
-import '../localizations/rhythm.dart';
+import '../localizations/framework.dart';
 import 'picker.dart';
 
 // Values derived from https://developer.apple.com/design/resources/ and on iOS
@@ -408,7 +408,7 @@ class DatePicker extends StatefulWidget {
   // Estimate the minimum width that each column needs to layout its content.
   static double _getColumnWidth(
     _PickerColumnType columnType,
-    RhythmLocalizations localizations,
+    FrameworkLocalizations localizations,
     BuildContext context,
   ) {
     String longestText = '';
@@ -487,7 +487,7 @@ class _DatePickerDateTimeState extends State<DatePicker> {
   static const double _kMaximumOffAxisFraction = 0.45;
 
   late int textDirectionFactor;
-  late RhythmLocalizations localizations;
+  late FrameworkLocalizations localizations;
 
   // Alignment based on text direction. The variable name is self descriptive,
   // however, when text direction is rtl, alignment is reversed.
@@ -653,7 +653,7 @@ class _DatePickerDateTimeState extends State<DatePicker> {
 
     textDirectionFactor =
         Directionality.of(context) == TextDirection.ltr ? 1 : -1;
-    localizations = RhythmLocalizations.of(context);
+    localizations = FrameworkLocalizations.of(context);
 
     alignCenterLeft =
         textDirectionFactor == 1 ? Alignment.centerLeft : Alignment.centerRight;
@@ -1105,7 +1105,7 @@ class _DatePickerDateState extends State<DatePicker> {
   final DatePickerDateOrder? dateOrder;
 
   late int textDirectionFactor;
-  late RhythmLocalizations localizations;
+  late FrameworkLocalizations localizations;
 
   // Alignment based on text direction. The variable name is self descriptive,
   // however, when text direction is rtl, alignment is reversed.
@@ -1173,7 +1173,8 @@ class _DatePickerDateState extends State<DatePicker> {
 
     textDirectionFactor =
         Directionality.of(context) == TextDirection.ltr ? 1 : -1;
-    localizations = RhythmLocalizations.of(context);
+
+    localizations = FrameworkLocalizations.of(context);
 
     alignCenterLeft =
         textDirectionFactor == 1 ? Alignment.centerLeft : Alignment.centerRight;
@@ -1640,7 +1641,8 @@ class TimerPicker extends StatefulWidget {
 
 class _TimerPickerState extends State<TimerPicker> {
   late TextDirection textDirection;
-  late RhythmLocalizations localizations;
+  late FrameworkLocalizations localizations;
+
   int get textDirectionFactor {
     switch (textDirection) {
       case TextDirection.ltr:
@@ -1721,7 +1723,7 @@ class _TimerPickerState extends State<TimerPicker> {
     super.didChangeDependencies();
 
     textDirection = Directionality.of(context);
-    localizations = RhythmLocalizations.of(context);
+    localizations = FrameworkLocalizations.of(context);
 
     _measureLabelMetrics();
   }

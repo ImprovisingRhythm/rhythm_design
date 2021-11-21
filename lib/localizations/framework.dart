@@ -1,47 +1,41 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
-class RhythmLocalizations {
-  RhythmLocalizations(this.locale);
+class FrameworkLocalizations {
+  FrameworkLocalizations(this.locale);
 
   final Locale locale;
+  late final Map<String, String> localizedValues;
 
-  static RhythmLocalizations of(BuildContext context) {
-    final localization =
-        Localizations.of<RhythmLocalizations>(context, RhythmLocalizations);
+  static FrameworkLocalizations of(BuildContext context) {
+    final localization = Localizations.of<FrameworkLocalizations>(
+        context, FrameworkLocalizations);
 
     if (localization == null) {
-      throw FlutterError('RhythmLocalizations is not found in widget tree');
+      throw FlutterError('FrameworkLocalizations is not found in widget tree');
     }
 
     return localization;
   }
 
-  static const _localizedValues = <String, Map<String, String>>{
-    'en': {
-      'confirm': 'Confirm',
-      'cancel': 'Cancel',
-      'cut': 'Cut',
-      'copy': 'Copy',
-      'paste': 'Paste',
-      'selectAll': 'Select all',
-    },
-    'zh': {
-      'confirm': '确认',
-      'cancel': '取消',
-      'cut': '剪切',
-      'copy': '复制',
-      'paste': '粘贴',
-      'selectAll': '全选',
-    },
-  };
+  static const LocalizationsDelegate<FrameworkLocalizations> delegate =
+      _FrameworkLocalizationsDelegate();
 
-  static List<String> languages() => _localizedValues.keys.toList();
+  static List<String> languages() => ['en', 'zh'];
+
+  Future<void> load() async {
+    final langCode = locale.languageCode;
+    final path = 'packages/rhythm_design/assets/i18n/$langCode.json';
+    final payload = await rootBundle.loadString(path);
+
+    localizedValues = jsonDecode(payload).cast<String, String>();
+  }
 
   String _getValue(String name) {
-    return _localizedValues[locale.languageCode]![name] ??
-        _localizedValues['en']![name] ??
-        '[Translation Error]';
+    return localizedValues[name] ?? name;
   }
 
   String get confirm => _getValue('confirm');
@@ -129,25 +123,23 @@ class RhythmLocalizations {
   List<String> get timerPickerSecondLabels => const <String>['sec.'];
 }
 
-class RhythmLocalizationsDelegate
-    extends LocalizationsDelegate<RhythmLocalizations> {
-  const RhythmLocalizationsDelegate();
+class _FrameworkLocalizationsDelegate
+    extends LocalizationsDelegate<FrameworkLocalizations> {
+  const _FrameworkLocalizationsDelegate();
 
   @override
   bool isSupported(Locale locale) =>
-      RhythmLocalizations.languages().contains(locale.languageCode);
+      FrameworkLocalizations.languages().contains(locale.languageCode);
 
   @override
-  Future<RhythmLocalizations> load(Locale locale) {
-    // Returning a SynchronousFuture here because an async "load" operation
-    // isn't needed to produce an instance of DemoLocalizations.
-    return SynchronousFuture<RhythmLocalizations>(
-      RhythmLocalizations(locale),
-    );
+  Future<FrameworkLocalizations> load(Locale locale) async {
+    final localizations = FrameworkLocalizations(locale);
+    await localizations.load();
+    return localizations;
   }
 
   @override
-  bool shouldReload(RhythmLocalizationsDelegate old) => false;
+  bool shouldReload(_FrameworkLocalizationsDelegate old) => false;
 }
 
 /// Determines the order of the columns inside [DatePicker] in

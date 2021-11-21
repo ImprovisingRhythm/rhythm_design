@@ -41,7 +41,7 @@ export 'components/thumb_painter.dart';
 export 'components/touchable.dart';
 export 'design/design_token.dart';
 export 'design/ui_props.dart';
-export 'localizations/rhythm.dart';
+export 'localizations/framework.dart';
 export 'localizations/rtl.dart';
 export 'methods/actionsheet.dart';
 export 'methods/modal.dart';

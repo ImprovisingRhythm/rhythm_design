@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 
 import '../app/theme_provider.dart';
 import 'blur_box.dart';
+import 'touchable.dart';
 
 class Card extends StatelessWidget {
   const Card({
@@ -13,6 +14,7 @@ class Card extends StatelessWidget {
     this.width,
     this.height,
     this.blur = false,
+    this.onPressed,
   }) : super(key: key);
 
   final Widget child;
@@ -22,6 +24,7 @@ class Card extends StatelessWidget {
   final double? width;
   final double? height;
   final bool blur;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +48,14 @@ class Card extends StatelessWidget {
     if (blur) {
       builder = BlurBox(
         borderRadius: resolvedBorderRadius,
+        child: builder,
+      );
+    }
+
+    if (onPressed != null) {
+      builder = Touchable(
+        haptic: true,
+        onPressed: onPressed,
         child: builder,
       );
     }

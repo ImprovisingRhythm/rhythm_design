@@ -76,9 +76,9 @@ abstract class DesignToken {
   Color get selectionToolbarBackgroundColor => const Color(0xff303030);
 
   /// AppBar props
-  double get appBarHeight => 50;
+  double get appBarHeight => 30.0 + spacing + spacing / 1.5;
   double get appBarIconSize => 24;
-  Color get appBarBackgroundColor => primaryBackgroundColor;
+  Color get appBarBackgroundColor => secondaryBackgroundColor;
 
   TextStyle get appBarTitleTextStyle {
     return const TextStyle(

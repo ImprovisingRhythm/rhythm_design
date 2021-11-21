@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../app/theme_provider.dart';
-import '../localizations/rhythm.dart';
+import '../localizations/framework.dart';
 import 'touchable.dart';
 
 class ActionSheetItem extends StatelessWidget {
@@ -55,19 +55,14 @@ class ActionSheetItem extends StatelessWidget {
 }
 
 class ActionSheet extends StatelessWidget {
-  const ActionSheet({
-    Key? key,
-    required this.items,
-    this.cancellable = true,
-  }) : super(key: key);
+  const ActionSheet({Key? key, required this.items}) : super(key: key);
 
   final List<ActionSheetItem> items;
-  final bool cancellable;
 
   @override
   Widget build(BuildContext context) {
     final theme = ThemeProvider.of(context);
-    final localizations = RhythmLocalizations.of(context);
+    final localizations = FrameworkLocalizations.of(context);
 
     return Container(
       clipBehavior: Clip.antiAlias,

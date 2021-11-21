@@ -8,7 +8,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../app/theme_provider.dart';
-import '../../localizations/rhythm.dart';
+import '../../localizations/framework.dart';
 import '../../utils/ui_designer.dart';
 import '../null_widget.dart';
 import 'text_selection_toolbar.dart';
@@ -145,7 +145,7 @@ class _TextSelectionControlsToolbarState
     );
 
     final items = <Widget>[];
-    final localizations = RhythmLocalizations.of(context);
+    final localizations = FrameworkLocalizations.of(context);
 
     void addToolbarButton(
       String text,

@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import '../design/design_token.dart';
-import '../localizations/rhythm.dart';
+import '../localizations/framework.dart';
 import '../localizations/rtl.dart';
 import '../themes/dark.dart';
 import '../themes/light.dart';
@@ -350,7 +350,7 @@ class _RhythmAppState extends State<RhythmApp> {
     _heroController = RhythmApp.createHeroController();
 
     _localizationsDelegates = [
-      const RhythmLocalizationsDelegate(),
+      FrameworkLocalizations.delegate,
       RtlLocalizations.delegate,
       ...widget.localizationsDelegates ?? []
     ];

@@ -26,6 +26,7 @@ class TextSelectionToolbarButton extends StatelessWidget {
         highlightColor: theme.white.withOpacity(0.05),
         duration: Duration.zero,
         reverseDuration: Duration.zero,
+        releaseDelay: Duration.zero,
         onPressed: onPressed,
         child: Container(
           alignment: Alignment.center,
