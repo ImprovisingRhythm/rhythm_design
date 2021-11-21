@@ -389,74 +389,32 @@ class _TextSelectionToolbarContent extends StatefulWidget {
 }
 
 class _TextSelectionToolbarContentState
-    extends State<_TextSelectionToolbarContent> with TickerProviderStateMixin {
-  // Controls the fading of the buttons within the menu during page transitions.
-  late AnimationController _controller;
-
-  void _statusListener(AnimationStatus status) {
-    if (status != AnimationStatus.dismissed && !mounted) {
-      return;
-    }
-
-    _controller.forward();
-    _controller.removeStatusListener(_statusListener);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      value: 1.0,
-      vsync: this,
-      // This was eyeballed on a physical iOS device running iOS 13.
-      duration: const Duration(milliseconds: 300),
-    );
-  }
-
-  @override
-  void didUpdateWidget(_TextSelectionToolbarContent oldWidget) {
-    // If the children are changing, the current page should be reset.
-    if (widget.children != oldWidget.children) {
-      _controller.forward();
-      _controller.removeStatusListener(_statusListener);
-    }
-    super.didUpdateWidget(oldWidget);
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
+    extends State<_TextSelectionToolbarContent> {
   @override
   Widget build(BuildContext context) {
     return widget.toolbarBuilder(
       context,
       widget.anchor,
       widget.isAbove,
-      FadeTransition(
-        opacity: _controller,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: widget.children,
-        ),
-        // TODO: support more than 4 actions
-        //
-        // child: _TextSelectionToolbarItems(
-        //   page: _page,
-        //   backButton: TextSelectionToolbarButton(
-        //     onPressed: _handlePreviousPage,
-        //     text: '◀',
-        //   ),
-        //   nextButton: TextSelectionToolbarButton(
-        //     onPressed: _handleNextPage,
-        //     text: '▶',
-        //   ),
-        //   nextButtonDisabled: const TextSelectionToolbarButton(text: '▶'),
-        //   children: widget.children,
-        // ),
+      Row(
+        mainAxisSize: MainAxisSize.min,
+        children: widget.children,
       ),
+      // TODO: support more than 4 actions
+      //
+      // child: _TextSelectionToolbarItems(
+      //   page: _page,
+      //   backButton: TextSelectionToolbarButton(
+      //     onPressed: _handlePreviousPage,
+      //     text: '◀',
+      //   ),
+      //   nextButton: TextSelectionToolbarButton(
+      //     onPressed: _handleNextPage,
+      //     text: '▶',
+      //   ),
+      //   nextButtonDisabled: const TextSelectionToolbarButton(text: '▶'),
+      //   children: widget.children,
+      // ),
     );
   }
 }
