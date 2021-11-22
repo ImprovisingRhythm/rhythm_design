@@ -38,6 +38,10 @@ class DarkTheme extends DesignToken {
         textColor: white,
         backgroundColor: primaryColor,
       ),
+      UIVariant.transparent: UIVariantProps(
+        textColor: white,
+        backgroundColor: transparent,
+      ),
     };
   }
 }

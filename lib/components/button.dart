@@ -7,20 +7,29 @@ import 'touchable.dart';
 class Button extends StatelessWidget {
   const Button({
     Key? key,
-    required this.title,
+    this.title,
+    this.child,
     this.variant = UIVariant.primary,
     this.size = UISize.md,
+    this.width,
+    this.height,
     this.padding,
+    this.shape = BoxShape.rectangle,
     this.borderRadius,
     this.textColor,
     this.backgroundColor,
     this.onPressed,
-  }) : super(key: key);
+  })  : assert(child != null || title != null),
+        super(key: key);
 
-  final String title;
+  final String? title;
+  final Widget? child;
   final UIVariant variant;
   final UISize size;
+  final double? width;
+  final double? height;
   final EdgeInsets? padding;
+  final BoxShape shape;
   final BorderRadius? borderRadius;
   final Color? textColor;
   final Color? backgroundColor;
@@ -38,23 +47,29 @@ class Button extends StatelessWidget {
       button: true,
       child: Touchable(
         haptic: true,
-        scale: 0.98,
+        scale: 0.96,
         onPressed: onPressed,
         child: Container(
-          height: buttonSize.height,
+          width: width ?? buttonSize.width,
+          height: height ?? buttonSize.height,
           alignment: Alignment.center,
           padding: padding,
           decoration: BoxDecoration(
             color: backgroundColor ?? buttonVariant.backgroundColor,
-            borderRadius: borderRadius ?? theme.borderRadius,
+            borderRadius: shape == BoxShape.rectangle
+                ? borderRadius ?? theme.borderRadius
+                : null,
+            shape: shape,
           ),
-          child: Text(
-            title,
-            style: TextStyle(
-              color: textColor ?? buttonVariant.textColor,
-              fontSize: buttonSize.fontSize,
-            ),
-          ),
+          child: title != null
+              ? Text(
+                  title!,
+                  style: TextStyle(
+                    color: textColor ?? buttonVariant.textColor,
+                    fontSize: buttonSize.fontSize,
+                  ),
+                )
+              : child!,
         ),
       ),
     );
@@ -68,6 +83,7 @@ class IconButton extends StatelessWidget {
     required this.icon,
     this.variant = UIVariant.primary,
     this.size = UISize.md,
+    this.customSize,
     this.iconColor,
     this.backgroundColor,
     this.onPressed,
@@ -77,6 +93,7 @@ class IconButton extends StatelessWidget {
   final Icon icon;
   final UIVariant variant;
   final UISize size;
+  final double? customSize;
   final Color? iconColor;
   final Color? backgroundColor;
   final VoidCallback? onPressed;
@@ -84,7 +101,7 @@ class IconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = ThemeProvider.of(context);
-    final buttonSize = theme.buttonSize[size]!;
+    final buttonSize = customSize ?? theme.buttonSize[size]!.height;
     final buttonVariant = theme.buttonVariant[variant]!;
 
     return Semantics(
@@ -92,12 +109,12 @@ class IconButton extends StatelessWidget {
       label: label,
       button: true,
       child: Touchable(
-        haptic: true,
-        scale: 0.98,
+        highlightColor: theme.highlightColor,
+        highlightShape: BoxShape.circle,
         onPressed: onPressed,
         child: Container(
-          width: buttonSize.width,
-          height: buttonSize.height,
+          width: buttonSize,
+          height: buttonSize,
           alignment: Alignment.center,
           decoration: BoxDecoration(
             color: backgroundColor ?? buttonVariant.backgroundColor,
@@ -105,8 +122,8 @@ class IconButton extends StatelessWidget {
           ),
           child: Icon(
             icon.icon,
-            size: 24,
-            color: iconColor ?? buttonVariant.textColor,
+            size: icon.size,
+            color: icon.color ?? iconColor ?? buttonVariant.textColor,
           ),
         ),
       ),
