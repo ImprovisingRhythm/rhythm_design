@@ -8,7 +8,7 @@ class LightTheme extends DesignToken {
   Color get primaryColor => const Color(0xff57886C);
 
   @override
-  Color get highlightColor => black.withOpacity(0.08);
+  Color get highlightColor => black.withOpacity(0.05);
 
   @override
   Color get textColor => black;

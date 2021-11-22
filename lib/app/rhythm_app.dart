@@ -332,9 +332,10 @@ class _RhythmAppState extends State<RhythmApp> {
 
   bool get _usesRouter => widget.routerDelegate != null;
   SingletonFlutterWindow get _window => WidgetsBinding.instance!.window;
+  MediaQueryData get _mediaQuery => MediaQueryData.fromWindow(window);
 
   DesignToken get _theme {
-    final brightness = MediaQueryData.fromWindow(window).platformBrightness;
+    final brightness = _mediaQuery.platformBrightness;
 
     if (brightness == Brightness.dark) {
       return widget.darkTheme ?? DarkTheme();
@@ -446,7 +447,7 @@ class _RhythmAppState extends State<RhythmApp> {
 
   @override
   Widget build(BuildContext context) {
-    return ScrollConfiguration(
+    Widget builder = ScrollConfiguration(
       behavior: widget.scrollBehavior ?? const _ScrollBehavior(),
       child: ThemeProvider(
         designToken: _theme,
@@ -456,6 +457,12 @@ class _RhythmAppState extends State<RhythmApp> {
         ),
       ),
     );
+
+    if (!_mediaQuery.accessibleNavigation) {
+      builder = ExcludeSemantics(child: builder);
+    }
+
+    return builder;
   }
 }
 
