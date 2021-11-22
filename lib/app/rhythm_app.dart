@@ -318,12 +318,6 @@ class RhythmApp extends StatefulWidget {
 
   @override
   State<RhythmApp> createState() => _RhythmAppState();
-
-  /// The [HeroController] used for page transitions.
-  ///
-  /// Used by [RhythmApp].
-  static HeroController createHeroController() =>
-      HeroController(); // Linear tweening.
 }
 
 class _RhythmAppState extends State<RhythmApp> {
@@ -348,7 +342,7 @@ class _RhythmAppState extends State<RhythmApp> {
   void initState() {
     super.initState();
 
-    _heroController = RhythmApp.createHeroController();
+    _heroController = HeroController();
 
     _localizationsDelegates = [
       FrameworkLocalizations.delegate,

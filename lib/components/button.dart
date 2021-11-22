@@ -40,6 +40,7 @@ class Button extends StatelessWidget {
     final theme = ThemeProvider.of(context);
     final buttonSize = theme.buttonSize[size]!;
     final buttonVariant = theme.buttonVariant[variant]!;
+    final _title = title;
 
     return Semantics(
       excludeSemantics: true,
@@ -61,15 +62,15 @@ class Button extends StatelessWidget {
                 : null,
             shape: shape,
           ),
-          child: title != null
+          child: _title != null
               ? Text(
-                  title!,
+                  _title,
                   style: TextStyle(
                     color: textColor ?? buttonVariant.textColor,
                     fontSize: buttonSize.fontSize,
                   ),
                 )
-              : child!,
+              : child,
         ),
       ),
     );

@@ -1,7 +1,3 @@
-// Copyright 2014 The Flutter Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
 import 'dart:ui' show lerpDouble;
 
 import 'package:flutter/foundation.dart';
@@ -13,10 +9,6 @@ import 'package:flutter/widgets.dart';
 import '../app/theme_provider.dart';
 import 'thumb_painter.dart';
 
-// Examples can assume:
-// bool _lights = false;
-// void setState(VoidCallback fn) { }
-
 /// An iOS-style switch.
 ///
 /// Used to toggle the on/off state of a single setting.
@@ -25,31 +17,6 @@ import 'thumb_painter.dart';
 /// the switch changes, the widget calls the [onChanged] callback. Most widgets
 /// that use a switch will listen for the [onChanged] callback and rebuild the
 /// switch with a new [value] to update the visual appearance of the switch.
-///
-/// {@tool snippet}
-///
-/// This sample shows how to use a [Switch] in a [ListTile]. The
-/// [MergeSemantics] is used to turn the entire [ListTile] into a single item
-/// for accessibility tools.
-///
-/// ```dart
-/// MergeSemantics(
-///   child: ListTile(
-///     title: const Text('Lights'),
-///     trailing: Switch(
-///       value: _lights,
-///       onChanged: (bool value) { setState(() { _lights = value; }); },
-///     ),
-///     onTap: () { setState(() { _lights = !_lights; }); },
-///   ),
-/// )
-/// ```
-/// {@end-tool}
-///
-/// See also:
-///
-///  * [Switch], the material design equivalent.
-///  * <https://developer.apple.com/ios/human-interface-guidelines/controls/switches/>
 class Switch extends StatefulWidget {
   /// Creates an iOS-style switch.
   ///
