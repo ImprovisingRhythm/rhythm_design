@@ -12,6 +12,7 @@ export 'app/rhythm_app.dart';
 export 'app/theme_provider.dart';
 export 'components/actionsheet.dart';
 export 'components/activity_indicator.dart';
+export 'components/animations/exports.dart';
 export 'components/app_bar.dart';
 export 'components/back_gesture_detector.dart';
 export 'components/blur_box.dart';

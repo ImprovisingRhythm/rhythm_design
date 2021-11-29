@@ -65,9 +65,9 @@ abstract class DesignToken {
     return const {
       UISize.xs: UISizeProps(height: 38, fontSize: 14),
       UISize.sm: UISizeProps(height: 44, fontSize: 16),
-      UISize.md: UISizeProps(height: 50, fontSize: 17),
-      UISize.lg: UISizeProps(height: 56, fontSize: 19),
-      UISize.xl: UISizeProps(height: 62, fontSize: 20),
+      UISize.md: UISizeProps(height: 50, fontSize: 18),
+      UISize.lg: UISizeProps(height: 56, fontSize: 20),
+      UISize.xl: UISizeProps(height: 62, fontSize: 22),
     };
   }
 
@@ -100,7 +100,7 @@ abstract class DesignToken {
   }
 
   /// Actionsheet props
-  double get actionSheetItemHeight => 58;
+  double get actionSheetItemHeight => 58.0;
   Color get actionSheetBackgroundColor => primaryBackgroundColor;
 
   TextStyle get actionSheetItemTextStyle {
