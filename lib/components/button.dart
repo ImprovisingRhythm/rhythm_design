@@ -8,6 +8,7 @@ class Button extends StatelessWidget {
   const Button({
     Key? key,
     this.title,
+    this.textStyle,
     this.child,
     this.variant = UIVariant.primary,
     this.size = UISize.md,
@@ -16,13 +17,13 @@ class Button extends StatelessWidget {
     this.padding,
     this.shape = BoxShape.rectangle,
     this.borderRadius,
-    this.textColor,
     this.backgroundColor,
     this.onPressed,
   })  : assert(child != null || title != null),
         super(key: key);
 
   final String? title;
+  final TextStyle? textStyle;
   final Widget? child;
   final UIVariant variant;
   final UISize size;
@@ -31,7 +32,6 @@ class Button extends StatelessWidget {
   final EdgeInsets? padding;
   final BoxShape shape;
   final BorderRadius? borderRadius;
-  final Color? textColor;
   final Color? backgroundColor;
   final VoidCallback? onPressed;
 
@@ -66,9 +66,9 @@ class Button extends StatelessWidget {
               ? Text(
                   _title,
                   style: TextStyle(
-                    color: textColor ?? buttonVariant.textColor,
+                    color: buttonVariant.textColor,
                     fontSize: buttonSize.fontSize,
-                  ),
+                  ).merge(textStyle),
                 )
               : child,
         ),

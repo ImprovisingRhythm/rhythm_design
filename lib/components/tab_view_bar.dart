@@ -109,11 +109,12 @@ class TabViewBarState extends State<TabViewBar> {
                   curve: Curves.ease,
                   style: theme.textStyle
                       .copyWith(inherit: false)
-                      .merge(theme.titleTextStyle.copyWith(
+                      .merge(theme.titleTextStyle)
+                      .copyWith(
                         color: index != _currentIndex
                             ? theme.unselectedTextColor
                             : null,
-                      )),
+                      ),
                   child: FittedBox(child: Text(widget.tabs[index])),
                 ),
               ),
