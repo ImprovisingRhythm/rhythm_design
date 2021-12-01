@@ -151,7 +151,7 @@ class _ActivityIndicatorPainter extends CustomPainter {
       paint.color = activeColor.withAlpha(_kAlphaValues[t]);
 
       canvas
-        ..drawCircle(offset, radius / 5, paint)
+        ..drawCircle(offset, radius / 7, paint)
         ..rotate(_kTwoPI / tickCount);
     }
 
