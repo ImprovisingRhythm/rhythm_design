@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../app/theme_provider.dart';
-import '../rhythm_design.dart';
+import 'keyboard_dismissible.dart';
 
 class Scaffold extends StatelessWidget {
   const Scaffold({

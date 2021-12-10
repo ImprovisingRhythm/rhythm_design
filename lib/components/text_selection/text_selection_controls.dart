@@ -265,7 +265,8 @@ class _TextSelectionControls extends TextSelectionControls {
       clipboardStatus: clipboardStatus,
       endpoints: endpoints,
       globalEditableRegion: globalEditableRegion,
-      handleCut: canCut(delegate) ? () => handleCut(delegate) : null,
+      handleCut:
+          canCut(delegate) ? () => handleCut(delegate, clipboardStatus) : null,
       handleCopy: canCopy(delegate)
           ? () => handleCopy(delegate, clipboardStatus)
           : null,
