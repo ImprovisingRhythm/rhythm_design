@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../app/theme_provider.dart';
+import '../design/ui_props.dart';
 import '../localizations/framework.dart';
 import 'touchable.dart';
 
@@ -31,7 +32,8 @@ class ActionSheetItem extends StatelessWidget {
     final resolvedColor = destructive ? theme.dangerColor : textColor;
 
     return Touchable(
-      highlightColor: theme.highlightColor,
+      effects: const [UITouchableEffect.color],
+      focusColor: theme.focusColor,
       onPressed: onPressed,
       child: Container(
         padding: last

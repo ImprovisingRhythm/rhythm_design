@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../app/theme_provider.dart';
+import '../design/ui_props.dart';
 import 'blur_box.dart';
 import 'touchable.dart';
 
@@ -54,7 +55,7 @@ class Card extends StatelessWidget {
 
     if (onPressed != null) {
       builder = Touchable(
-        haptic: true,
+        effects: const [UITouchableEffect.haptic],
         onPressed: onPressed,
         child: builder,
       );

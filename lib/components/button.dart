@@ -10,6 +10,7 @@ class Button extends StatelessWidget {
     this.title,
     this.textStyle,
     this.child,
+    this.effects = const [UITouchableEffect.haptic, UITouchableEffect.scale],
     this.variant = UIVariant.primary,
     this.size = UISize.md,
     this.width,
@@ -25,6 +26,7 @@ class Button extends StatelessWidget {
   final String? title;
   final TextStyle? textStyle;
   final Widget? child;
+  final List<UITouchableEffect> effects;
   final UIVariant variant;
   final UISize size;
   final double? width;
@@ -47,8 +49,8 @@ class Button extends StatelessWidget {
       label: title,
       button: true,
       child: Touchable(
-        haptic: true,
-        scale: 0.96,
+        effects: effects,
+        borderRadius: borderRadius ?? theme.borderRadius,
         onPressed: onPressed,
         child: Container(
           width: width ?? buttonSize.width,
@@ -82,6 +84,7 @@ class IconButton extends StatelessWidget {
     Key? key,
     required this.label,
     required this.icon,
+    this.effects = const [UITouchableEffect.haptic, UITouchableEffect.scale],
     this.variant = UIVariant.primary,
     this.size = UISize.md,
     this.customSize,
@@ -92,6 +95,7 @@ class IconButton extends StatelessWidget {
 
   final String label;
   final Icon icon;
+  final List<UITouchableEffect> effects;
   final UIVariant variant;
   final UISize size;
   final double? customSize;
@@ -110,8 +114,8 @@ class IconButton extends StatelessWidget {
       label: label,
       button: true,
       child: Touchable(
-        highlightColor: theme.highlightColor,
-        highlightShape: BoxShape.circle,
+        effects: effects,
+        focusShape: BoxShape.circle,
         onPressed: onPressed,
         child: Container(
           width: buttonSize,

@@ -1,6 +1,8 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
+import '../app/theme_provider.dart';
+import '../design/ui_props.dart';
 import '../utils/platform_features.dart';
 
 const _kForwardDuration = Duration(milliseconds: 150);
@@ -12,11 +14,12 @@ class Touchable extends StatefulWidget {
   const Touchable({
     Key? key,
     required this.child,
-    this.haptic = false,
-    this.scale,
-    this.opacity,
-    this.highlightColor,
-    this.highlightShape = BoxShape.rectangle,
+    this.effects = const [],
+    this.scale = 0.96,
+    this.opacity = 0.9,
+    this.focusColor,
+    this.focusShape = BoxShape.rectangle,
+    this.borderRadius = BorderRadius.zero,
     this.duration = _kForwardDuration,
     this.reverseDuration = _kReverseDuration,
     this.releaseDelay = _kReleaseDelay,
@@ -24,11 +27,12 @@ class Touchable extends StatefulWidget {
   }) : super(key: key);
 
   final Widget child;
-  final bool haptic;
-  final double? scale;
-  final double? opacity;
-  final Color? highlightColor;
-  final BoxShape highlightShape;
+  final List<UITouchableEffect> effects;
+  final double scale;
+  final double opacity;
+  final Color? focusColor;
+  final BoxShape focusShape;
+  final BorderRadius borderRadius;
   final Duration duration;
   final Duration reverseDuration;
   final Duration releaseDelay;
@@ -57,21 +61,6 @@ class TouchableState extends State<Touchable>
       duration: widget.duration,
       reverseDuration: widget.reverseDuration,
     );
-
-    if (widget.highlightColor != null) {
-      _color = ColorTween(
-        begin: widget.highlightColor!.withOpacity(0),
-        end: widget.highlightColor!,
-      ).animate(_controller);
-    }
-
-    if (widget.scale != null) {
-      _scale = Tween(begin: 1.0, end: widget.scale).animate(_controller);
-    }
-
-    if (widget.opacity != null) {
-      _opacity = Tween(begin: 1.0, end: widget.opacity).animate(_controller);
-    }
   }
 
   @override
@@ -84,18 +73,21 @@ class TouchableState extends State<Touchable>
   void didUpdateWidget(Touchable oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    if (widget.scale != oldWidget.scale && widget.scale != null) {
+    if (widget.scale != oldWidget.scale &&
+        widget.effects.contains(UITouchableEffect.scale)) {
       _scale = Tween(begin: 1.0, end: widget.scale).animate(_controller);
     }
 
-    if (widget.opacity != oldWidget.opacity && widget.opacity != null) {
+    if (widget.opacity != oldWidget.opacity &&
+        widget.effects.contains(UITouchableEffect.opacity)) {
       _opacity = Tween(begin: 1.0, end: widget.opacity).animate(_controller);
     }
 
-    if (widget.highlightColor != oldWidget.highlightColor) {
+    if (widget.focusColor != oldWidget.focusColor &&
+        widget.effects.contains(UITouchableEffect.color)) {
       _color = ColorTween(
-        begin: widget.highlightColor!.withOpacity(0),
-        end: widget.highlightColor!,
+        begin: widget.focusColor!.withOpacity(0),
+        end: widget.focusColor!,
       ).animate(_controller);
     }
   }
@@ -105,14 +97,14 @@ class TouchableState extends State<Touchable>
   }
 
   void _handleTapUp(TapUpDetails details) {
-    if (widget.haptic) {
+    if (widget.effects.contains(UITouchableEffect.haptic)) {
       _releaseHapticFeedback();
     }
 
     Future.delayed(widget.releaseDelay, widget.onPressed);
 
     _forwardingTicker?.then((_) {
-      if (widget.highlightColor != null) {
+      if (widget.focusColor != null) {
         Future.delayed(_kHighlightDuration, () {
           if (mounted) {
             _controller.reverse();
@@ -131,7 +123,7 @@ class TouchableState extends State<Touchable>
   }
 
   void _handleTap() {
-    if (widget.haptic) {
+    if (widget.effects.contains(UITouchableEffect.haptic)) {
       _releaseHapticFeedback();
     }
 
@@ -150,10 +142,21 @@ class TouchableState extends State<Touchable>
       return widget.child;
     }
 
+    final theme = ThemeProvider.of(context);
+    final focusColor = widget.focusColor ?? theme.focusColor;
+
+    _color ??= ColorTween(
+      begin: focusColor.withOpacity(0),
+      end: focusColor,
+    ).animate(_controller);
+
+    _scale ??= Tween(begin: 1.0, end: widget.scale).animate(_controller);
+    _opacity ??= Tween(begin: 1.0, end: widget.opacity).animate(_controller);
+
     bool hasComplexGesture = false;
     Widget builder = widget.child;
 
-    if (_color != null) {
+    if (widget.effects.contains(UITouchableEffect.color)) {
       hasComplexGesture = true;
       builder = AnimatedBuilder(
         animation: _color!,
@@ -162,7 +165,10 @@ class TouchableState extends State<Touchable>
             position: DecorationPosition.foreground,
             decoration: BoxDecoration(
               color: _color!.value,
-              shape: widget.highlightShape,
+              shape: widget.focusShape,
+              borderRadius: widget.focusShape == BoxShape.circle
+                  ? null
+                  : widget.borderRadius,
             ),
             child: child,
           );
@@ -171,7 +177,7 @@ class TouchableState extends State<Touchable>
       );
     }
 
-    if (_scale != null) {
+    if (widget.effects.contains(UITouchableEffect.scale)) {
       hasComplexGesture = true;
       builder = ScaleTransition(
         scale: _scale!,
@@ -179,7 +185,7 @@ class TouchableState extends State<Touchable>
       );
     }
 
-    if (_opacity != null) {
+    if (widget.effects.contains(UITouchableEffect.opacity)) {
       hasComplexGesture = true;
       builder = FadeTransition(
         opacity: _opacity!,

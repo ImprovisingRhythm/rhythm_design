@@ -8,9 +8,6 @@ class LightTheme extends DesignToken {
   Color get primaryColor => const Color(0xff57886C);
 
   @override
-  Color get highlightColor => black.withOpacity(0.05);
-
-  @override
   Color get textColor => black;
 
   @override
@@ -26,6 +23,9 @@ class LightTheme extends DesignToken {
   Color get imageBackgroundColor => controlBackgroundColor;
 
   @override
+  Color get focusColor => black.withOpacity(0.05);
+
+  @override
   Color get borderColor => const Color(0xfff5f5f5);
 
   @override
@@ -38,8 +38,12 @@ class LightTheme extends DesignToken {
         textColor: white,
         backgroundColor: primaryColor,
       ),
+      UIVariant.secondary: UIVariantProps(
+        textColor: black,
+        backgroundColor: controlBackgroundColor,
+      ),
       UIVariant.transparent: UIVariantProps(
-        textColor: white,
+        textColor: black,
         backgroundColor: transparent,
       ),
     };

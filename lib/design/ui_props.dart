@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 
 enum UISize { xs, sm, md, lg, xl }
 enum UIVariant { primary, secondary, success, danger, transparent }
+enum UITouchableEffect { haptic, scale, opacity, color }
 
 class UISizeProps {
   const UISizeProps({

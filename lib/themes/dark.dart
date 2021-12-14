@@ -8,9 +8,6 @@ class DarkTheme extends DesignToken {
   Color get primaryColor => const Color(0xff57886C);
 
   @override
-  Color get highlightColor => white.withOpacity(0.05);
-
-  @override
   Color get textColor => white;
 
   @override
@@ -26,6 +23,9 @@ class DarkTheme extends DesignToken {
   Color get imageBackgroundColor => controlBackgroundColor;
 
   @override
+  Color get focusColor => white.withOpacity(0.05);
+
+  @override
   Color get borderColor => const Color(0xff181818);
 
   @override
@@ -37,6 +37,10 @@ class DarkTheme extends DesignToken {
       UIVariant.primary: UIVariantProps(
         textColor: white,
         backgroundColor: primaryColor,
+      ),
+      UIVariant.secondary: UIVariantProps(
+        textColor: white,
+        backgroundColor: controlBackgroundColor,
       ),
       UIVariant.transparent: UIVariantProps(
         textColor: white,

@@ -22,6 +22,13 @@ Future<T?> showModal<T>({
   );
 }
 
+OverlayEntry showOverlayModal<T>(WidgetBuilder builder) {
+  final overlay = GlobalNavigator.overlay;
+  final entry = OverlayEntry(builder: builder);
+  overlay.insert(entry);
+  return entry;
+}
+
 Future<T?> showBottomSheet<T>({
   required WidgetBuilder builder,
   BuildContext? context,

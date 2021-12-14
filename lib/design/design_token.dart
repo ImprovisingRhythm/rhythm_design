@@ -9,7 +9,7 @@ abstract class DesignToken {
   Color get black => const Color(0xff000000);
 
   Color get primaryColor;
-  Color get highlightColor;
+  Color get successColor => const Color(0xff26ad8d);
   Color get dangerColor => const Color(0xfffe3f43);
 
   Color get textColor;
@@ -22,9 +22,11 @@ abstract class DesignToken {
   Color get controlBackgroundColor;
   Color get imageBackgroundColor;
 
+  Color get focusColor;
   Color get borderColor;
   Color get dividerColor;
   Color get modalBarrierColor => const Color(0x90000000);
+  Color get overlayColor => const Color(0xff303030);
 
   /// Common text styles
   TextStyle get textStyle {
@@ -73,7 +75,7 @@ abstract class DesignToken {
 
   /// Text selection toolbar props
   Color get selectionToolbarTextColor => white;
-  Color get selectionToolbarBackgroundColor => const Color(0xff303030);
+  Color get selectionToolbarBackgroundColor => overlayColor;
 
   /// AppBar props
   double get appBarHeight => 30.0 + spacing + spacing / 1.5;
@@ -113,6 +115,14 @@ abstract class DesignToken {
   /// Picker props
   double get pickerSelectionOverlayHorizontalMargin => 9.0;
   TextStyle get pickerTextStyle {
+    return const TextStyle(
+      fontSize: 18,
+      fontWeight: FontWeight.w400,
+    );
+  }
+
+  /// Dialog props
+  TextStyle get dialogTitleStyle {
     return const TextStyle(
       fontSize: 18,
       fontWeight: FontWeight.w400,

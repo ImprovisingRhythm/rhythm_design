@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../app/theme_provider.dart';
+import '../design/ui_props.dart';
 import '../utils/platform_features.dart';
 import 'blur_box.dart';
 import 'touchable.dart';
@@ -36,7 +37,7 @@ class _TouchableItem extends StatelessWidget {
     final theme = ThemeProvider.of(context);
 
     return Touchable(
-      haptic: true,
+      effects: const [UITouchableEffect.haptic],
       onPressed: onPressed,
       child: Container(
         color: theme.transparent,

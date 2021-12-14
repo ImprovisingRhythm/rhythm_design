@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../../app/theme_provider.dart';
+import '../../design/ui_props.dart';
 import '../touchable.dart';
 
 const _kToolbarButtonHeight = 40.0;
@@ -22,7 +23,8 @@ class TextSelectionToolbarButton extends StatelessWidget {
 
     return UnconstrainedBox(
       child: Touchable(
-        highlightColor: theme.white.withOpacity(0.05),
+        effects: const [UITouchableEffect.color],
+        focusColor: theme.white.withOpacity(0.05),
         onPressed: onPressed,
         child: Container(
           alignment: Alignment.center,

@@ -11,6 +11,7 @@ class ActivityIndicator extends StatefulWidget {
     Key? key,
     this.animating = true,
     this.radius = _kDefaultIndicatorRadius,
+    this.activeColor,
   })  : assert(radius > 0.0),
         progress = 1.0,
         super(key: key);
@@ -25,6 +26,7 @@ class ActivityIndicator extends StatefulWidget {
     Key? key,
     this.radius = _kDefaultIndicatorRadius,
     this.progress = 1.0,
+    this.activeColor,
   })  : assert(radius > 0.0),
         assert(progress >= 0.0),
         assert(progress <= 1.0),
@@ -48,6 +50,8 @@ class ActivityIndicator extends StatefulWidget {
   ///
   /// Defaults to 1.0. Must be between 0.0 and 1.0 inclusive, and cannot be null.
   final double progress;
+
+  final Color? activeColor;
 
   @override
   State<ActivityIndicator> createState() => _ActivityIndicatorState();
@@ -101,9 +105,10 @@ class _ActivityIndicatorState extends State<ActivityIndicator>
         child: CustomPaint(
           painter: _ActivityIndicatorPainter(
             position: _controller,
-            activeColor: mediaQuery.platformBrightness == Brightness.light
-                ? const Color(0xFF3C3C44)
-                : const Color(0xFFEBEBF5),
+            activeColor: widget.activeColor ??
+                (mediaQuery.platformBrightness == Brightness.light
+                    ? const Color(0xFF3C3C44)
+                    : const Color(0xFFEBEBF5)),
             radius: widget.radius,
             progress: widget.progress,
           ),

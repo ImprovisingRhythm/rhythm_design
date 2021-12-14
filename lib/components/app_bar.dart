@@ -42,8 +42,8 @@ class AppBarButton extends StatelessWidget {
     final theme = ThemeProvider.of(context);
 
     return Touchable(
-      highlightColor: theme.highlightColor,
-      highlightShape: BoxShape.circle,
+      focusColor: theme.focusColor,
+      focusShape: BoxShape.circle,
       onPressed: onPressed,
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: theme.spacing / 2),

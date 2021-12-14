@@ -14,8 +14,21 @@ const _kSqueeze = 1.45;
 // Opacity fraction value that dims the wheel above and below the "magnifier"
 // lens.
 const _kOverAndUnderCenterOpacity = 0.447;
-
 const _kDefaultItemExtent = 50.0;
+
+class PickerBottomSheet extends StatelessWidget {
+  const PickerBottomSheet({
+    Key? key,
+    required this.child,
+  }) : super(key: key);
+
+  final Picker child;
+
+  @override
+  Widget build(BuildContext context) {
+    return child;
+  }
+}
 
 class PickerItem extends StatelessWidget {
   const PickerItem({
@@ -291,7 +304,7 @@ class PickerDefaultSelectionOverlay extends StatelessWidget {
           left: capLeftEdge ? radius : Radius.zero,
           right: capRightEdge ? radius : Radius.zero,
         ),
-        color: theme.highlightColor,
+        color: theme.focusColor,
       ),
     );
   }
