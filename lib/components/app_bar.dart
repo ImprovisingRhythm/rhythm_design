@@ -2,6 +2,7 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/widgets.dart';
 
 import '../app/theme_provider.dart';
+import '../design/ui_props.dart';
 import '../utils/platform_features.dart';
 import 'card.dart';
 import 'touchable.dart';
@@ -42,6 +43,7 @@ class AppBarButton extends StatelessWidget {
     final theme = ThemeProvider.of(context);
 
     return Touchable(
+      effects: const [UITouchableEffect.color],
       focusColor: theme.focusColor,
       focusShape: BoxShape.circle,
       onPressed: onPressed,

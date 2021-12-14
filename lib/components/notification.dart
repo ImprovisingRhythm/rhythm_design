@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
 
 import '../app/theme_provider.dart';
+import '../design/ui_props.dart';
 import '../utils/ui_designer.dart';
 import 'null_widget.dart';
 import 'touchable.dart';
@@ -87,6 +88,7 @@ class _BannerNotificationState extends State<BannerNotification>
           dragStartBehavior: DragStartBehavior.down,
           onDismissed: (_) => setState(() => _discarded = true),
           child: Touchable(
+            effects: const [UITouchableEffect.haptic],
             onPressed: () {
               _controller
                   .reverse()
