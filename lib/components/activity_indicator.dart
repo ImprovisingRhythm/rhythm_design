@@ -119,7 +119,7 @@ class _ActivityIndicatorState extends State<ActivityIndicator>
 }
 
 const _kTwoPI = math.pi * 2.0;
-const _kAlphaValues = <int>[47, 47, 47, 47, 72, 97, 122, 147];
+const _kAlphaValues = <int>[47, 47, 72, 97, 122, 147, 167, 187, 207];
 
 class _ActivityIndicatorPainter extends CustomPainter {
   _ActivityIndicatorPainter({

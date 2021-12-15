@@ -5,6 +5,8 @@ import 'activity_indicator.dart';
 import 'keyboard_dismissible.dart';
 import 'listenable_builder.dart';
 
+const kFullScreenActivityIndicatorRadius = 18.0;
+
 class LoadingProgressController extends ChangeNotifier {
   double _lastValue = 0;
 
@@ -37,7 +39,7 @@ class ActivityIndicatorWithProgress extends StatelessWidget {
           curve: Curves.ease,
           builder: (context, value, child) {
             return ActivityIndicator.partiallyRevealed(
-              radius: 15.0,
+              radius: kFullScreenActivityIndicatorRadius,
               activeColor: const Color(0xffffffff),
               progress: value,
             );
@@ -105,7 +107,7 @@ class LoadingOverlayState extends State<LoadingOverlay>
           child: controller != null
               ? ActivityIndicatorWithProgress(controller)
               : const ActivityIndicator(
-                  radius: 15.0,
+                  radius: kFullScreenActivityIndicatorRadius,
                   activeColor: Color(0xffffffff),
                 ),
         ),

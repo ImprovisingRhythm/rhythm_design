@@ -64,5 +64,6 @@ export 'transitions/fade_in_up.dart';
 export 'transitions/slide.dart';
 export 'utils/context_ext.dart';
 export 'utils/global_navigator.dart';
+export 'utils/mutex.dart';
 export 'utils/platform_features.dart';
 export 'utils/ui_designer.dart';

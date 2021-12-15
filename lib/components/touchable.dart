@@ -15,7 +15,7 @@ class Touchable extends StatefulWidget {
     Key? key,
     required this.child,
     this.effects = const [],
-    this.scale = 0.96,
+    this.scale = 0.98,
     this.opacity = 0.9,
     this.focusColor,
     this.focusShape = BoxShape.rectangle,
@@ -51,6 +51,7 @@ class TouchableState extends State<Touchable>
   Animation<double>? _opacity;
 
   TickerFuture? _forwardingTicker;
+  bool _clicked = false;
 
   @override
   void initState() {
@@ -92,11 +93,21 @@ class TouchableState extends State<Touchable>
     }
   }
 
-  void _handleTapDown(TapDownDetails details) {
+  void _handleTapDown(TapDownDetails details) async {
+    if (_clicked) {
+      return;
+    }
+
     _forwardingTicker = _controller.forward();
   }
 
   void _handleTapUp(TapUpDetails details) {
+    if (_clicked) {
+      return;
+    } else {
+      _clicked = true;
+    }
+
     if (widget.effects.contains(UITouchableEffect.haptic)) {
       _releaseHapticFeedback();
     }
@@ -106,11 +117,15 @@ class TouchableState extends State<Touchable>
     _forwardingTicker?.then((_) {
       if (widget.focusColor != null) {
         Future.delayed(_kHighlightDuration, () {
+          _clicked = false;
+
           if (mounted) {
             _controller.reverse();
           }
         });
       } else {
+        _clicked = false;
+
         if (mounted) {
           _controller.reverse();
         }
