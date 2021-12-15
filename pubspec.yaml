@@ -14,10 +14,12 @@ dependencies:
   eva_icons_flutter: ^3.0.2
   flutter_cache_manager: ^3.3.0
   flutter_svg: ^1.0.0
+  get_it: ^7.1.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
   flutter_lints: ^1.0.0
 
 # For information on the generic Dart part of this file, see the

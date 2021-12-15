@@ -8,6 +8,8 @@ export 'package:flutter/widgets.dart' hide BottomNavigationBarItem, PopupRoute;
 export 'package:flutter_cache_manager/flutter_cache_manager.dart';
 export 'package:flutter_svg/flutter_svg.dart';
 
+export 'app/global_instances.dart';
+export 'app/global_navigator.dart';
 export 'app/rhythm_app.dart';
 export 'app/theme_provider.dart';
 export 'components/actionsheet.dart';
@@ -65,7 +67,6 @@ export 'transitions/slide.dart';
 export 'utils/async.dart';
 export 'utils/context_ext.dart';
 export 'utils/formatter.dart';
-export 'utils/global_navigator.dart';
 export 'utils/mutex.dart';
 export 'utils/object_id.dart';
 export 'utils/platform_features.dart';

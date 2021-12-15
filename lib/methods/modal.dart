@@ -1,9 +1,9 @@
 import 'package:flutter/widgets.dart' hide PopupRoute;
 
+import '../app/global_navigator.dart';
 import '../app/theme_provider.dart';
 import '../transitions/bottom_sheet.dart';
 import '../transitions/fade_in_modal.dart';
-import '../utils/global_navigator.dart';
 
 Future<T?> showModal<T>({
   required WidgetBuilder builder,

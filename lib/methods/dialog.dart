@@ -1,9 +1,9 @@
 import 'package:flutter/widgets.dart';
 
+import '../app/global_navigator.dart';
 import '../app/theme_provider.dart';
 import '../components/dialog.dart';
 import '../transitions/dialog.dart';
-import '../utils/global_navigator.dart';
 
 Future<T?> showDialog<T>({
   required WidgetBuilder builder,

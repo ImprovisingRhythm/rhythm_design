@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 
+import '../app/global_navigator.dart';
 import '../components/notification.dart';
-import '../utils/global_navigator.dart';
 
 void showNotification({
   required final String title,
