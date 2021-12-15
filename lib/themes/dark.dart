@@ -8,6 +8,9 @@ class DarkTheme extends DesignToken {
   Color get primaryColor => const Color(0xff57886C);
 
   @override
+  Color get primaryForegroundColor => primaryColor;
+
+  @override
   Color get textColor => white;
 
   @override
@@ -29,9 +32,6 @@ class DarkTheme extends DesignToken {
   Color get borderColor => const Color(0xff181818);
 
   @override
-  Color get dividerColor => const Color(0xff181818);
-
-  @override
   Map<UIVariant, UIVariantProps> get buttonVariant {
     return {
       UIVariant.primary: UIVariantProps(
@@ -48,4 +48,7 @@ class DarkTheme extends DesignToken {
       ),
     };
   }
+
+  @override
+  Color get actionSheetBottomDividerColor => const Color(0xff181818);
 }

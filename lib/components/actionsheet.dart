@@ -80,7 +80,7 @@ class ActionSheet extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           ...items,
-          Container(height: 8, color: theme.dividerColor),
+          Container(height: 8, color: theme.actionSheetBottomDividerColor),
           ActionSheetItem(
             last: true,
             text: localizations.cancel,

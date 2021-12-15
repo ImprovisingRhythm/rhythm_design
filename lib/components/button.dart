@@ -12,12 +12,12 @@ class Button extends StatelessWidget {
     this.child,
     this.effects = const [UITouchableEffect.haptic, UITouchableEffect.scale],
     this.variant = UIVariant.primary,
-    this.size = UISize.md,
     this.width,
-    this.height,
+    this.height = 50.0,
     this.padding,
     this.shape = BoxShape.rectangle,
     this.borderRadius,
+    this.textColor,
     this.backgroundColor,
     this.onPressed,
   })  : assert(child != null || title != null),
@@ -28,19 +28,18 @@ class Button extends StatelessWidget {
   final Widget? child;
   final List<UITouchableEffect> effects;
   final UIVariant variant;
-  final UISize size;
   final double? width;
   final double? height;
   final EdgeInsets? padding;
   final BoxShape shape;
   final BorderRadius? borderRadius;
+  final Color? textColor;
   final Color? backgroundColor;
   final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
     final theme = ThemeProvider.of(context);
-    final buttonSize = theme.buttonSize[size]!;
     final buttonVariant = theme.buttonVariant[variant]!;
     final _title = title;
 
@@ -53,8 +52,8 @@ class Button extends StatelessWidget {
         borderRadius: borderRadius ?? theme.borderRadius,
         onPressed: onPressed,
         child: Container(
-          width: width ?? buttonSize.width,
-          height: height ?? buttonSize.height,
+          width: width,
+          height: height,
           alignment: Alignment.center,
           padding: padding,
           decoration: BoxDecoration(
@@ -67,10 +66,8 @@ class Button extends StatelessWidget {
           child: _title != null
               ? Text(
                   _title,
-                  style: TextStyle(
-                    color: buttonVariant.textColor,
-                    fontSize: buttonSize.fontSize,
-                  ).merge(textStyle),
+                  style: TextStyle(color: textColor ?? buttonVariant.textColor)
+                      .merge(textStyle),
                 )
               : child,
         ),
@@ -86,8 +83,7 @@ class IconButton extends StatelessWidget {
     required this.icon,
     this.effects = const [UITouchableEffect.haptic, UITouchableEffect.scale],
     this.variant = UIVariant.primary,
-    this.size = UISize.md,
-    this.customSize,
+    this.size,
     this.iconColor,
     this.backgroundColor,
     this.onPressed,
@@ -97,8 +93,7 @@ class IconButton extends StatelessWidget {
   final Icon icon;
   final List<UITouchableEffect> effects;
   final UIVariant variant;
-  final UISize size;
-  final double? customSize;
+  final double? size;
   final Color? iconColor;
   final Color? backgroundColor;
   final VoidCallback? onPressed;
@@ -106,7 +101,6 @@ class IconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = ThemeProvider.of(context);
-    final buttonSize = customSize ?? theme.buttonSize[size]!.height;
     final buttonVariant = theme.buttonVariant[variant]!;
 
     return Semantics(
@@ -118,8 +112,8 @@ class IconButton extends StatelessWidget {
         focusShape: BoxShape.circle,
         onPressed: onPressed,
         child: Container(
-          width: buttonSize,
-          height: buttonSize,
+          width: size,
+          height: size,
           alignment: Alignment.center,
           decoration: BoxDecoration(
             color: backgroundColor ?? buttonVariant.backgroundColor,

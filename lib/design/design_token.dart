@@ -9,6 +9,7 @@ abstract class DesignToken {
   Color get black => const Color(0xff000000);
 
   Color get primaryColor;
+  Color get primaryForegroundColor;
   Color get successColor => const Color(0xff26ad8d);
   Color get dangerColor => const Color(0xfffe3f43);
 
@@ -24,7 +25,7 @@ abstract class DesignToken {
 
   Color get focusColor;
   Color get borderColor;
-  Color get dividerColor;
+  Color get dividerColor => placeholderTextColor;
   Color get modalBarrierColor => const Color(0x90000000);
   Color get overlayColor => const Color(0xff303030);
 
@@ -63,16 +64,6 @@ abstract class DesignToken {
   /// Bottom props
   Map<UIVariant, UIVariantProps> get buttonVariant;
 
-  Map<UISize, UISizeProps> get buttonSize {
-    return const {
-      UISize.xs: UISizeProps(height: 38, fontSize: 14),
-      UISize.sm: UISizeProps(height: 44, fontSize: 16),
-      UISize.md: UISizeProps(height: 50, fontSize: 18),
-      UISize.lg: UISizeProps(height: 56, fontSize: 20),
-      UISize.xl: UISizeProps(height: 62, fontSize: 22),
-    };
-  }
-
   /// Text selection toolbar props
   Color get selectionToolbarTextColor => white;
   Color get selectionToolbarBackgroundColor => overlayColor;
@@ -104,6 +95,7 @@ abstract class DesignToken {
   /// Actionsheet props
   double get actionSheetItemHeight => 58.0;
   Color get actionSheetBackgroundColor => primaryBackgroundColor;
+  Color get actionSheetBottomDividerColor;
 
   TextStyle get actionSheetItemTextStyle {
     return const TextStyle(
@@ -125,7 +117,17 @@ abstract class DesignToken {
   TextStyle get dialogTitleStyle {
     return const TextStyle(
       fontSize: 18,
-      fontWeight: FontWeight.w400,
+      fontWeight: FontWeight.w500,
+    );
+  }
+
+  /// Checkbox props
+  double get checkboxSize => 20.0;
+  TextStyle get checkboxTitleStyle {
+    return TextStyle(
+      fontSize: 16.0,
+      fontWeight: FontWeight.normal,
+      color: secondaryTextColor,
     );
   }
 }

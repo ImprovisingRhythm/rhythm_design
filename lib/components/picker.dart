@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 
 import '../app/theme_provider.dart';
 import '../utils/platform_features.dart';
+import 'bottom_sheet.dart';
 
 // Eyeballed values comparing with a native picker to produce the right
 // curvatures and densities.
@@ -26,7 +27,10 @@ class PickerBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return child;
+    return BottomSheet(
+      computeHeight: (h) => h * 0.5,
+      child: child,
+    );
   }
 }
 

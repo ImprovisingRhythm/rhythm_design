@@ -8,6 +8,9 @@ class LightTheme extends DesignToken {
   Color get primaryColor => const Color(0xff57886C);
 
   @override
+  Color get primaryForegroundColor => primaryColor;
+
+  @override
   Color get textColor => black;
 
   @override
@@ -29,9 +32,6 @@ class LightTheme extends DesignToken {
   Color get borderColor => const Color(0xfff5f5f5);
 
   @override
-  Color get dividerColor => const Color(0xfffafafa);
-
-  @override
   Map<UIVariant, UIVariantProps> get buttonVariant {
     return {
       UIVariant.primary: UIVariantProps(
@@ -48,4 +48,7 @@ class LightTheme extends DesignToken {
       ),
     };
   }
+
+  @override
+  Color get actionSheetBottomDividerColor => const Color(0xfffafafa);
 }

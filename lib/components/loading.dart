@@ -5,7 +5,7 @@ import 'activity_indicator.dart';
 import 'keyboard_dismissible.dart';
 import 'listenable_builder.dart';
 
-const kFullScreenActivityIndicatorRadius = 18.0;
+const kFullScreenActivityIndicatorRadius = 17.0;
 
 class LoadingProgressController extends ChangeNotifier {
   double _lastValue = 0;

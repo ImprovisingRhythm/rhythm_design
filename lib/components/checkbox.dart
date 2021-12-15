@@ -6,61 +6,55 @@ import '../design/ui_props.dart';
 import '../utils/ui_designer.dart';
 import 'touchable.dart';
 
-class CheckBox extends StatefulWidget {
+class CheckBox extends StatelessWidget {
   const CheckBox({
     Key? key,
     required this.value,
-    this.label,
+    this.title,
+    this.size,
     this.onChanged,
   }) : super(key: key);
 
   final bool value;
-  final String? label;
+  final String? title;
+  final double? size;
   final Function(bool)? onChanged;
 
   @override
-  CheckBoxState createState() => CheckBoxState();
-}
-
-class CheckBoxState extends State<CheckBox> {
-  @override
   Widget build(BuildContext context) {
     final theme = ThemeProvider.of(context);
-    final size = theme.textStyle.fontSize ?? 16.0;
-    final label = widget.label;
+    final _title = title;
+    final _size = size ?? theme.checkboxSize;
 
     Widget builder = Container(
       decoration: BoxDecoration(
-        color: widget.value ? theme.primaryColor : theme.primaryBackgroundColor,
+        color: value ? theme.primaryColor : theme.primaryBackgroundColor,
         shape: BoxShape.circle,
       ),
-      width: size,
-      height: size,
+      width: _size,
+      height: _size,
       alignment: Alignment.center,
-      child: widget.value
+      child: value
           ? Icon(
               EvaIcons.checkmark,
-              size: size,
+              size: _size - 4.0,
               color: theme.white,
             )
           : null,
     );
 
-    if (label != null) {
+    if (_title != null) {
       builder = Row(
         children: spacingX(theme.spacing / 2, [
           builder,
-          Text(
-            label,
-            style: theme.textStyle.copyWith(color: theme.secondaryTextColor),
-          ),
+          Text(_title, style: theme.checkboxTitleStyle),
         ]),
       );
     }
 
     return Touchable(
       effects: const [UITouchableEffect.haptic],
-      onPressed: () => widget.onChanged?.call(!widget.value),
+      onPressed: () => onChanged?.call(!value),
       child: builder,
     );
   }

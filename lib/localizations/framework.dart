@@ -37,6 +37,7 @@ class FrameworkLocalizations {
     return localizedValues[name] ?? name;
   }
 
+  String get ok => _getValue('ok');
   String get confirm => _getValue('confirm');
   String get cancel => _getValue('cancel');
   String get cut => _getValue('cut');

@@ -42,3 +42,25 @@ void showToast({
 
   GlobalNavigator.overlay.insert(entry);
 }
+
+void showSuccessToast({
+  required final String text,
+  final Duration duration = const Duration(seconds: 2),
+}) {
+  showToast(
+    text: text,
+    duration: duration,
+    style: ToastStyle.success,
+  );
+}
+
+void showErrorToast({
+  required final String text,
+  final Duration duration = const Duration(seconds: 2),
+}) {
+  showToast(
+    text: text,
+    duration: duration,
+    style: ToastStyle.error,
+  );
+}

@@ -8,7 +8,7 @@ import '../utils/global_navigator.dart';
 Future<T?> showDialog<T>({
   required WidgetBuilder builder,
   BuildContext? context,
-  bool barrierDismissible = true,
+  bool barrierDismissible = false,
   Color? barrierColor,
 }) {
   context ??= GlobalNavigator.buildContext;
@@ -34,4 +34,24 @@ Future<void> showAlert({
       buttonTextConfirm: buttonTextConfirm,
     );
   });
+}
+
+Future<bool> showConfirm({
+  required String text,
+  String? title,
+  String? buttonTextConfirm,
+  String? buttonTextCancel,
+  bool destructive = false,
+}) async {
+  final result = await showDialog<bool>(builder: (context) {
+    return ConfirmDialog(
+      title: title,
+      text: text,
+      buttonTextConfirm: buttonTextConfirm,
+      buttonTextCancel: buttonTextCancel,
+      destructive: destructive,
+    );
+  });
+
+  return result ?? false;
 }
