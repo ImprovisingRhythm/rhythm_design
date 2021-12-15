@@ -93,7 +93,7 @@ class TouchableState extends State<Touchable>
     }
   }
 
-  void _handleTapDown(TapDownDetails details) async {
+  void _handleTapDown(TapDownDetails details) {
     if (_clicked) {
       return;
     }
@@ -104,9 +104,9 @@ class TouchableState extends State<Touchable>
   void _handleTapUp(TapUpDetails details) {
     if (_clicked) {
       return;
-    } else {
-      _clicked = true;
     }
+
+    _clicked = true;
 
     if (widget.effects.contains(UITouchableEffect.haptic)) {
       _releaseHapticFeedback();
@@ -117,23 +117,27 @@ class TouchableState extends State<Touchable>
     _forwardingTicker?.then((_) {
       if (widget.focusColor != null) {
         Future.delayed(_kHighlightDuration, () {
-          _clicked = false;
-
           if (mounted) {
-            _controller.reverse();
+            _controller.reverse().then((_) {
+              _clicked = false;
+            });
           }
         });
       } else {
-        _clicked = false;
-
         if (mounted) {
-          _controller.reverse();
+          _controller.reverse().then((_) {
+            _clicked = false;
+          });
         }
       }
     });
   }
 
   void _handleTapCancel() {
+    if (_clicked) {
+      return;
+    }
+
     _controller.reverse();
   }
 
