@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 class GlobalNavigator {
   static final navigatorKey = GlobalKey<NavigatorState>();
 
-  static BuildContext get buildContext {
+  static BuildContext get context {
     final context = navigatorKey.currentContext;
 
     if (context == null) {
@@ -13,11 +13,21 @@ class GlobalNavigator {
     return context;
   }
 
+  static NavigatorState get state {
+    final state = navigatorKey.currentState;
+
+    if (state == null) {
+      throw FlutterError('Need to attach navigatorKey first');
+    }
+
+    return state;
+  }
+
   static OverlayState get overlay {
-    final overlay = navigatorKey.currentState?.overlay;
+    final overlay = state.overlay;
 
     if (overlay == null) {
-      throw FlutterError('Need to attach navigatorKey first');
+      throw FlutterError('overlay state has not been initialized');
     }
 
     return overlay;

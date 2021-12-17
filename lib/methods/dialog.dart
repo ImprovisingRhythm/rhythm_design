@@ -11,7 +11,7 @@ Future<T?> showDialog<T>({
   bool barrierDismissible = false,
   Color? barrierColor,
 }) {
-  context ??= GlobalNavigator.buildContext;
+  context ??= GlobalNavigator.context;
 
   return Navigator.of(context).push<T>(
     DialogModalRoute(

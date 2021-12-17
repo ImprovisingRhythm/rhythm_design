@@ -9,6 +9,7 @@ import '../localizations/rtl.dart';
 import '../themes/dark.dart';
 import '../themes/light.dart';
 import '../transitions/slide.dart';
+import 'global_navigator.dart';
 import 'theme_provider.dart';
 
 /// An application that uses Rhythm Design.
@@ -405,7 +406,7 @@ class _RhythmAppState extends State<RhythmApp> {
 
     return WidgetsApp(
       key: GlobalObjectKey(this),
-      navigatorKey: widget.navigatorKey,
+      navigatorKey: widget.navigatorKey ?? GlobalNavigator.navigatorKey,
       navigatorObservers: widget.navigatorObservers!,
       pageRouteBuilder: <T>(RouteSettings settings, WidgetBuilder builder) {
         return SlidePageRoute<T>(settings: settings, builder: builder);

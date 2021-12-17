@@ -31,6 +31,7 @@ class ExtendedListView extends StatefulWidget {
     this.startSpacing = 0,
     this.endSpacing = 0,
     this.horizontalSpacing = 0,
+    this.gapSpacing = 0,
     this.forceRefreshTime = const Duration(milliseconds: 800),
     this.onRefresh,
     this.onLoad,
@@ -50,6 +51,7 @@ class ExtendedListView extends StatefulWidget {
   final double startSpacing;
   final double endSpacing;
   final double horizontalSpacing;
+  final double gapSpacing;
   final Duration forceRefreshTime;
   final Future<void> Function()? onRefresh;
   final Future<bool> Function()? onLoad;
@@ -203,7 +205,23 @@ class ExtendedListViewState extends State<ExtendedListView> {
           if (widget.itemBuilder != null)
             _horizontalSpacingWrap(SliverList(
               delegate: SliverChildBuilderDelegate(
-                widget.itemBuilder!,
+                (context, index) {
+                  final spacing = widget.gapSpacing;
+                  final count = widget.itemCount;
+
+                  Widget builder = widget.itemBuilder!(context, index);
+
+                  if (spacing > 0) {
+                    if (count == null || index < count - 1) {
+                      builder = Padding(
+                        padding: EdgeInsets.only(bottom: spacing),
+                        child: builder,
+                      );
+                    }
+                  }
+
+                  return builder;
+                },
                 childCount: widget.itemCount,
               ),
             )),

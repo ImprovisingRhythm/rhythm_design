@@ -11,7 +11,7 @@ Future<T?> showModal<T>({
   bool barrierDismissible = true,
   Color? barrierColor,
 }) {
-  context ??= GlobalNavigator.buildContext;
+  context ??= GlobalNavigator.context;
 
   return Navigator.of(context).push<T>(
     FadeInModalRoute(
@@ -35,7 +35,7 @@ Future<T?> showBottomSheet<T>({
   bool barrierDismissible = true,
   Color? barrierColor,
 }) {
-  context ??= GlobalNavigator.buildContext;
+  context ??= GlobalNavigator.context;
 
   return Navigator.of(context).push<T>(
     BottomSheetRoute(
