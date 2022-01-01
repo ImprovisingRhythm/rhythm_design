@@ -120,7 +120,7 @@ class ConfirmDialog extends StatelessWidget {
                   child: Button(
                     effects: const [UITouchableEffect.color],
                     variant: UIVariant.secondary,
-                    title: buttonTextCancel ?? '取消',
+                    title: buttonTextCancel ?? localizations.cancel,
                     onPressed: () => Navigator.of(context).pop(false),
                   ),
                 ),
