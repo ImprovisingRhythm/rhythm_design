@@ -61,6 +61,7 @@ abstract class DesignToken {
   EdgeInsets get padding => EdgeInsets.all(spacing);
 
   /// Bottom props
+  double get buttonDisabledOpacity => 0.75;
   Map<UIVariant, UIVariantProps> get buttonVariant;
 
   /// Text selection toolbar props

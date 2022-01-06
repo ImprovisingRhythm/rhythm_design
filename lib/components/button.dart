@@ -45,36 +45,45 @@ class Button extends StatelessWidget {
     final buttonVariant = theme.buttonVariant[variant]!;
     final _title = title;
 
+    Widget builder = Touchable(
+      effects: effects,
+      focusColor: focusColor ?? buttonVariant.focusColor,
+      borderRadius: borderRadius ?? theme.borderRadius,
+      onPressed: onPressed,
+      child: Container(
+        width: width,
+        height: height,
+        alignment: Alignment.center,
+        padding: padding,
+        decoration: BoxDecoration(
+          color: backgroundColor ?? buttonVariant.backgroundColor,
+          borderRadius: shape == BoxShape.rectangle
+              ? borderRadius ?? theme.borderRadius
+              : null,
+          shape: shape,
+        ),
+        child: _title != null
+            ? Text(
+                _title,
+                style: TextStyle(color: textColor ?? buttonVariant.textColor)
+                    .merge(textStyle),
+              )
+            : child,
+      ),
+    );
+
+    if (onPressed == null) {
+      builder = Opacity(
+        opacity: theme.buttonDisabledOpacity,
+        child: builder,
+      );
+    }
+
     return Semantics(
       excludeSemantics: true,
       label: title,
       button: true,
-      child: Touchable(
-        effects: effects,
-        focusColor: focusColor ?? buttonVariant.focusColor,
-        borderRadius: borderRadius ?? theme.borderRadius,
-        onPressed: onPressed,
-        child: Container(
-          width: width,
-          height: height,
-          alignment: Alignment.center,
-          padding: padding,
-          decoration: BoxDecoration(
-            color: backgroundColor ?? buttonVariant.backgroundColor,
-            borderRadius: shape == BoxShape.rectangle
-                ? borderRadius ?? theme.borderRadius
-                : null,
-            shape: shape,
-          ),
-          child: _title != null
-              ? Text(
-                  _title,
-                  style: TextStyle(color: textColor ?? buttonVariant.textColor)
-                      .merge(textStyle),
-                )
-              : child,
-        ),
-      ),
+      child: builder,
     );
   }
 }
@@ -108,30 +117,39 @@ class IconButton extends StatelessWidget {
     final theme = ThemeProvider.of(context);
     final buttonVariant = theme.buttonVariant[variant]!;
 
+    Widget builder = Touchable(
+      effects: effects,
+      focusColor: focusColor ?? buttonVariant.focusColor,
+      focusShape: BoxShape.circle,
+      onPressed: onPressed,
+      child: Container(
+        width: size,
+        height: size,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: backgroundColor ?? buttonVariant.backgroundColor,
+          shape: BoxShape.circle,
+        ),
+        child: Icon(
+          icon.icon,
+          size: icon.size,
+          color: icon.color ?? iconColor ?? buttonVariant.textColor,
+        ),
+      ),
+    );
+
+    if (onPressed == null) {
+      builder = Opacity(
+        opacity: theme.buttonDisabledOpacity,
+        child: builder,
+      );
+    }
+
     return Semantics(
       excludeSemantics: true,
       label: label,
       button: true,
-      child: Touchable(
-        effects: effects,
-        focusColor: focusColor ?? buttonVariant.focusColor,
-        focusShape: BoxShape.circle,
-        onPressed: onPressed,
-        child: Container(
-          width: size,
-          height: size,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: backgroundColor ?? buttonVariant.backgroundColor,
-            shape: BoxShape.circle,
-          ),
-          child: Icon(
-            icon.icon,
-            size: icon.size,
-            color: icon.color ?? iconColor ?? buttonVariant.textColor,
-          ),
-        ),
-      ),
+      child: builder,
     );
   }
 }
