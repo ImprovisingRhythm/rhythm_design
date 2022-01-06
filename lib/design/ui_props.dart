@@ -7,8 +7,10 @@ class UIVariantProps {
   const UIVariantProps({
     this.textColor,
     this.backgroundColor,
+    this.focusColor,
   });
 
   final Color? textColor;
   final Color? backgroundColor;
+  final Color? focusColor;
 }

@@ -10,7 +10,7 @@ class Button extends StatelessWidget {
     this.title,
     this.textStyle,
     this.child,
-    this.effects = const [UITouchableEffect.haptic, UITouchableEffect.scale],
+    this.effects = const [UITouchableEffect.color],
     this.variant = UIVariant.primary,
     this.width,
     this.height = 50.0,
@@ -19,6 +19,7 @@ class Button extends StatelessWidget {
     this.borderRadius,
     this.textColor,
     this.backgroundColor,
+    this.focusColor,
     this.onPressed,
   })  : assert(child != null || title != null),
         super(key: key);
@@ -35,6 +36,7 @@ class Button extends StatelessWidget {
   final BorderRadius? borderRadius;
   final Color? textColor;
   final Color? backgroundColor;
+  final Color? focusColor;
   final VoidCallback? onPressed;
 
   @override
@@ -49,6 +51,7 @@ class Button extends StatelessWidget {
       button: true,
       child: Touchable(
         effects: effects,
+        focusColor: focusColor ?? buttonVariant.focusColor,
         borderRadius: borderRadius ?? theme.borderRadius,
         onPressed: onPressed,
         child: Container(
@@ -81,11 +84,12 @@ class IconButton extends StatelessWidget {
     Key? key,
     required this.label,
     required this.icon,
-    this.effects = const [UITouchableEffect.haptic, UITouchableEffect.scale],
+    this.effects = const [UITouchableEffect.color],
     this.variant = UIVariant.primary,
     this.size,
     this.iconColor,
     this.backgroundColor,
+    this.focusColor,
     this.onPressed,
   }) : super(key: key);
 
@@ -96,6 +100,7 @@ class IconButton extends StatelessWidget {
   final double? size;
   final Color? iconColor;
   final Color? backgroundColor;
+  final Color? focusColor;
   final VoidCallback? onPressed;
 
   @override
@@ -109,6 +114,7 @@ class IconButton extends StatelessWidget {
       button: true,
       child: Touchable(
         effects: effects,
+        focusColor: focusColor ?? buttonVariant.focusColor,
         focusShape: BoxShape.circle,
         onPressed: onPressed,
         child: Container(

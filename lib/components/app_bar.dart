@@ -44,7 +44,6 @@ class AppBarButton extends StatelessWidget {
 
     return Touchable(
       effects: const [UITouchableEffect.color],
-      focusColor: theme.focusColor,
       focusShape: BoxShape.circle,
       onPressed: onPressed,
       child: Container(

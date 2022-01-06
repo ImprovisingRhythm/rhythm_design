@@ -5,8 +5,8 @@ import '../app/theme_provider.dart';
 import '../design/ui_props.dart';
 import '../utils/platform_features.dart';
 
-const _kForwardDuration = Duration(milliseconds: 150);
-const _kReverseDuration = Duration(milliseconds: 150);
+const _kForwardDuration = Duration(milliseconds: 125);
+const _kReverseDuration = Duration(milliseconds: 125);
 const _kHighlightDuration = Duration(milliseconds: 150);
 const _kReleaseDelay = Duration(milliseconds: 100);
 
@@ -76,19 +76,28 @@ class TouchableState extends State<Touchable>
 
     if (widget.scale != oldWidget.scale &&
         widget.effects.contains(UITouchableEffect.scale)) {
-      _scale = Tween(begin: 1.0, end: widget.scale).animate(_controller);
+      _scale = Tween(
+        begin: 1.0,
+        end: widget.scale,
+      ).animate(_controller);
     }
 
     if (widget.opacity != oldWidget.opacity &&
         widget.effects.contains(UITouchableEffect.opacity)) {
-      _opacity = Tween(begin: 1.0, end: widget.opacity).animate(_controller);
+      _opacity = Tween(
+        begin: 1.0,
+        end: widget.opacity,
+      ).animate(_controller);
     }
 
     if (widget.focusColor != oldWidget.focusColor &&
         widget.effects.contains(UITouchableEffect.color)) {
+      final theme = ThemeProvider.of(context);
+      final focusColor = widget.focusColor ?? theme.focusColor;
+
       _color = ColorTween(
-        begin: widget.focusColor!.withOpacity(0),
-        end: widget.focusColor!,
+        begin: focusColor.withOpacity(0),
+        end: focusColor,
       ).animate(_controller);
     }
   }
@@ -115,7 +124,7 @@ class TouchableState extends State<Touchable>
     Future.delayed(widget.releaseDelay, widget.onPressed);
 
     _forwardingTicker?.then((_) {
-      if (widget.focusColor != null) {
+      if (widget.effects.contains(UITouchableEffect.color)) {
         Future.delayed(_kHighlightDuration, () {
           if (mounted) {
             _controller.reverse().then((_) {
@@ -225,5 +234,35 @@ class TouchableState extends State<Touchable>
       onTapCancel: _handleTapCancel,
       child: builder,
     );
+  }
+}
+
+class RipplePainter extends CustomPainter {
+  const RipplePainter({
+    required this.offset,
+    required this.circleRadius,
+    required this.fillColor,
+  });
+
+  final Offset offset;
+  final double circleRadius;
+  final Color fillColor;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = fillColor
+      ..isAntiAlias = true;
+
+    canvas.clipRRect(RRect.fromRectAndRadius(
+      Rect.fromLTWH(0, 0, size.width, size.height),
+      Radius.circular(circleRadius),
+    ));
+    canvas.drawCircle(offset, circleRadius, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true;
   }
 }

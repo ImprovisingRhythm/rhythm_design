@@ -1,9 +1,9 @@
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import '../app/theme_provider.dart';
-import '../utils/platform_features.dart';
+import '../design/ui_props.dart';
 import 'tab_view.dart';
+import 'touchable.dart';
 
 class TabViewBar extends StatefulWidget {
   const TabViewBar({
@@ -94,15 +94,10 @@ class TabViewBarState extends State<TabViewBar> {
           for (int index = 0; index < widget.tabs.length; index++)
             Padding(
               padding: EdgeInsets.only(right: theme.spacing),
-              child: GestureDetector(
-                onTap: index != _currentIndex
-                    ? () {
-                        if (hasSuitableHapticHardware) {
-                          HapticFeedback.lightImpact();
-                        }
-
-                        widget.controller.animateTo(index);
-                      }
+              child: Touchable(
+                effects: const [UITouchableEffect.haptic],
+                onPressed: index != _currentIndex
+                    ? () => widget.controller.animateTo(index)
                     : null,
                 child: AnimatedDefaultTextStyle(
                   duration: const Duration(milliseconds: 150),

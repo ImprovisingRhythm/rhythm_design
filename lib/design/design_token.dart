@@ -25,7 +25,6 @@ abstract class DesignToken {
 
   Color get focusColor;
   Color get borderColor;
-  Color get dividerColor => placeholderTextColor;
   Color get modalBarrierColor => const Color(0x90000000);
   Color get overlayColor => const Color(0xff303030);
 
@@ -130,4 +129,11 @@ abstract class DesignToken {
       color: secondaryTextColor,
     );
   }
+
+  /// Divider props
+  Color get dividerColor => placeholderTextColor;
+  double get dividerSpacing => 20.0;
+  double get dividerThickness => 2.0;
+  double get dividerStartIndent => 0.0;
+  double get dividerEndIndent => 0.0;
 }

@@ -72,7 +72,6 @@ class AlertDialog extends StatelessWidget {
             if (title != null) Text(title!, style: theme.dialogTitleStyle),
             Text(text),
             Button(
-              effects: const [UITouchableEffect.color],
               variant: UIVariant.secondary,
               title: buttonTextConfirm ?? localizations.ok,
               onPressed: () => Navigator.of(context).pop(),
@@ -118,7 +117,6 @@ class ConfirmDialog extends StatelessWidget {
               children: spacingX(theme.spacing, [
                 Expanded(
                   child: Button(
-                    effects: const [UITouchableEffect.color],
                     variant: UIVariant.secondary,
                     title: buttonTextCancel ?? localizations.cancel,
                     onPressed: () => Navigator.of(context).pop(false),
@@ -126,7 +124,6 @@ class ConfirmDialog extends StatelessWidget {
                 ),
                 Expanded(
                   child: Button(
-                    effects: const [UITouchableEffect.color],
                     variant: UIVariant.secondary,
                     title: buttonTextConfirm ?? localizations.confirm,
                     textColor: destructive ? theme.dangerColor : null,

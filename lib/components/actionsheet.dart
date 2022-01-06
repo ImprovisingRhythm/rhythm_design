@@ -33,7 +33,6 @@ class ActionSheetItem extends StatelessWidget {
 
     return Touchable(
       effects: const [UITouchableEffect.color],
-      focusColor: theme.focusColor,
       onPressed: onPressed,
       child: Container(
         padding: last

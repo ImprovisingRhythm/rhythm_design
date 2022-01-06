@@ -37,6 +37,7 @@ class DarkTheme extends DesignToken {
       UIVariant.primary: UIVariantProps(
         textColor: white,
         backgroundColor: primaryColor,
+        focusColor: white.withOpacity(0.05),
       ),
       UIVariant.secondary: UIVariantProps(
         textColor: white,
