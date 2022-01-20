@@ -2,17 +2,30 @@ import 'package:flutter/widgets.dart';
 
 import '../components/back_gesture_detector.dart';
 
-class FadeInPageRoute<T> extends PageRoute<T> {
-  FadeInPageRoute({required this.builder, RouteSettings? settings})
-      : super(settings: settings);
+class FadeInRoute<T> extends PageRoute<T> {
+  FadeInRoute({
+    RouteSettings? settings,
+    required this.builder,
+    this.backGestureEnabled = false,
+    this.barrierDismissible = false,
+    this.barrierColor,
+    this.barrierLabel,
+  }) : super(settings: settings);
 
   final WidgetBuilder builder;
+  final bool backGestureEnabled;
 
   @override
-  Color? get barrierColor => null;
+  bool get fullscreenDialog => backGestureEnabled;
 
   @override
-  String? get barrierLabel => null;
+  final bool barrierDismissible;
+
+  @override
+  final Color? barrierColor;
+
+  @override
+  final String? barrierLabel;
 
   @override
   bool get opaque => false;

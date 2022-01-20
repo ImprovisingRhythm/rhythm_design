@@ -8,69 +8,19 @@ import '../localizations/framework.dart';
 import '../localizations/rtl.dart';
 import '../themes/dark.dart';
 import '../themes/light.dart';
+import '../transitions/fade_in.dart';
+import '../transitions/fade_in_up.dart';
 import '../transitions/slide.dart';
 import 'global_navigator.dart';
 import 'theme_provider.dart';
 
-/// An application that uses Rhythm Design.
-///
-/// A convenience widget that wraps a number of widgets that are commonly
-/// required for a Rhythm Design targeting application.
-///
-/// The [RhythmApp] configures the top-level [Navigator] to search for routes
-/// in the following order:
-///
-///  1. For the `/` route, the [home] property, if non-null, is used.
-///
-///  2. Otherwise, the [routes] table is used, if it has an entry for the route.
-///
-///  3. Otherwise, [onGenerateRoute] is called, if provided. It should return a
-///     non-null value for any _valid_ route not handled by [home] and [routes].
-///
-///  4. Finally if all else fails [onUnknownRoute] is called.
-///
-/// If [home], [routes], [onGenerateRoute], and [onUnknownRoute] are all null,
-/// and [builder] is not null, then no [Navigator] is created.
-///
-/// This widget also configures the observer of the top-level [Navigator] (if
-/// any) to perform [Hero] animations.
-///
-/// Use this widget with caution on Android since it may produce behaviors
-/// Android users are not expecting such as:
-///
-///  * Pages will be dismissible via a back swipe.
-///  * Scrolling past extremities will trigger iOS-style spring overscrolls.
-///  * The San Francisco font family is unavailable on Android and can result
-///    in undefined font behavior.
-///
-/// See also:
-///
-///  * [Navigator], which is used to manage the app's stack of pages.
-///  * [WidgetsApp], which defines the basic app elements
 class RhythmApp extends StatefulWidget {
-  /// Creates a RhythmApp.
-  ///
-  /// At least one of [home], [routes], [onGenerateRoute], or [builder] must be
-  /// non-null. If only [routes] is given, it must include an entry for the
-  /// [Navigator.defaultRouteName] (`/`), since that is the route used when the
-  /// application is launched with an intent that specifies an otherwise
-  /// unsupported route.
-  ///
-  /// This class creates an instance of [WidgetsApp].
-  ///
-  /// The boolean arguments, [routes], and [navigatorObservers], must not be null.
   const RhythmApp({
     Key? key,
-    this.navigatorKey,
     this.home,
-    Map<String, Widget Function(BuildContext)> this.routes =
-        const <String, WidgetBuilder>{},
+    this.routes = const {},
     this.initialRoute,
-    this.onGenerateRoute,
-    this.onGenerateInitialRoutes,
-    this.onUnknownRoute,
-    List<NavigatorObserver> this.navigatorObservers =
-        const <NavigatorObserver>[],
+    this.navigatorObservers = const [],
     this.builder,
     this.title = '',
     this.onGenerateTitle,
@@ -92,52 +42,8 @@ class RhythmApp extends StatefulWidget {
     this.useInheritedMediaQuery = false,
     this.theme,
     this.darkTheme,
-  })  : routeInformationProvider = null,
-        routeInformationParser = null,
-        routerDelegate = null,
-        backButtonDispatcher = null,
+  })  : backButtonDispatcher = null,
         super(key: key);
-
-  /// Creates a [RhythmApp] that uses the [Router] instead of a [Navigator].
-  const RhythmApp.router({
-    Key? key,
-    this.routeInformationProvider,
-    required RouteInformationParser<Object> this.routeInformationParser,
-    required RouterDelegate<Object> this.routerDelegate,
-    this.backButtonDispatcher,
-    this.builder,
-    this.title = '',
-    this.onGenerateTitle,
-    this.color,
-    this.locale,
-    this.localizationsDelegates,
-    this.localeListResolutionCallback,
-    this.localeResolutionCallback,
-    this.supportedLocales = const <Locale>[Locale('en', 'US')],
-    this.showPerformanceOverlay = false,
-    this.checkerboardRasterCacheImages = false,
-    this.checkerboardOffscreenLayers = false,
-    this.showSemanticsDebugger = false,
-    this.debugShowCheckedModeBanner = true,
-    this.shortcuts,
-    this.actions,
-    this.restorationScopeId,
-    this.scrollBehavior,
-    this.useInheritedMediaQuery = false,
-    this.theme,
-    this.darkTheme,
-  })  : navigatorObservers = null,
-        navigatorKey = null,
-        onGenerateRoute = null,
-        home = null,
-        onGenerateInitialRoutes = null,
-        onUnknownRoute = null,
-        routes = null,
-        initialRoute = null,
-        super(key: key);
-
-  /// {@macro flutter.widgets.widgetsApp.navigatorKey}
-  final GlobalKey<NavigatorState>? navigatorKey;
 
   /// {@macro flutter.widgets.widgetsApp.home}
   final Widget? home;
@@ -151,31 +57,12 @@ class RhythmApp extends StatefulWidget {
   /// new route.
   ///
   /// {@macro flutter.widgets.widgetsApp.routes}
-  final Map<String, WidgetBuilder>? routes;
+  final Map<String, RouteBuilder> routes;
 
-  /// {@macro flutter.widgets.widgetsApp.initialRoute}
   final String? initialRoute;
-
-  /// {@macro flutter.widgets.widgetsApp.onGenerateRoute}
-  final RouteFactory? onGenerateRoute;
-
-  /// {@macro flutter.widgets.widgetsApp.onGenerateInitialRoutes}
-  final InitialRouteListFactory? onGenerateInitialRoutes;
-
-  /// {@macro flutter.widgets.widgetsApp.onUnknownRoute}
-  final RouteFactory? onUnknownRoute;
 
   /// {@macro flutter.widgets.widgetsApp.navigatorObservers}
   final List<NavigatorObserver>? navigatorObservers;
-
-  /// {@macro flutter.widgets.widgetsApp.routeInformationProvider}
-  final RouteInformationProvider? routeInformationProvider;
-
-  /// {@macro flutter.widgets.widgetsApp.routeInformationParser}
-  final RouteInformationParser<Object>? routeInformationParser;
-
-  /// {@macro flutter.widgets.widgetsApp.routerDelegate}
-  final RouterDelegate<Object>? routerDelegate;
 
   /// {@macro flutter.widgets.widgetsApp.backButtonDispatcher}
   final BackButtonDispatcher? backButtonDispatcher;
@@ -325,7 +212,6 @@ class _RhythmAppState extends State<RhythmApp> {
   late HeroController _heroController;
   late List<LocalizationsDelegate> _localizationsDelegates;
 
-  bool get _usesRouter => widget.routerDelegate != null;
   SingletonFlutterWindow get _window => WidgetsBinding.instance!.window;
   MediaQueryData get _mediaQuery => MediaQueryData.fromWindow(window);
 
@@ -374,49 +260,44 @@ class _RhythmAppState extends State<RhythmApp> {
   }
 
   WidgetsApp _buildWidgetApp(BuildContext context) {
-    if (_usesRouter) {
-      return WidgetsApp.router(
-        key: GlobalObjectKey(this),
-        routeInformationProvider: widget.routeInformationProvider,
-        routeInformationParser: widget.routeInformationParser!,
-        routerDelegate: widget.routerDelegate!,
-        backButtonDispatcher: widget.backButtonDispatcher,
-        builder: widget.builder,
-        title: widget.title,
-        onGenerateTitle: widget.onGenerateTitle,
-        textStyle: _theme.textStyle,
-        color: widget.color ?? _theme.primaryColor,
-        locale: widget.locale,
-        localizationsDelegates: _localizationsDelegates,
-        localeResolutionCallback: widget.localeResolutionCallback,
-        localeListResolutionCallback: widget.localeListResolutionCallback,
-        supportedLocales: widget.supportedLocales,
-        showPerformanceOverlay: widget.showPerformanceOverlay,
-        checkerboardRasterCacheImages: widget.checkerboardRasterCacheImages,
-        checkerboardOffscreenLayers: widget.checkerboardOffscreenLayers,
-        showSemanticsDebugger: widget.showSemanticsDebugger,
-        debugShowCheckedModeBanner: widget.debugShowCheckedModeBanner,
-        inspectorSelectButtonBuilder: _inspectorSelectButtonBuilder,
-        shortcuts: widget.shortcuts,
-        actions: widget.actions,
-        restorationScopeId: widget.restorationScopeId,
-        useInheritedMediaQuery: widget.useInheritedMediaQuery,
-      );
-    }
-
     return WidgetsApp(
       key: GlobalObjectKey(this),
-      navigatorKey: widget.navigatorKey ?? GlobalNavigator.navigatorKey,
+      navigatorKey: GlobalNavigator.navigatorKey,
       navigatorObservers: widget.navigatorObservers!,
-      pageRouteBuilder: <T>(RouteSettings settings, WidgetBuilder builder) {
-        return SlidePageRoute<T>(settings: settings, builder: builder);
-      },
       home: widget.home,
-      routes: widget.routes!,
       initialRoute: widget.initialRoute,
-      onGenerateRoute: widget.onGenerateRoute,
-      onGenerateInitialRoutes: widget.onGenerateInitialRoutes,
-      onUnknownRoute: widget.onUnknownRoute,
+      onGenerateRoute: (settings) {
+        final args = settings.arguments;
+        final params = args is PushRouteOptions ? args.params : args;
+        final transitionStyle = args is PushRouteOptions
+            ? args.transitionStyle
+            : RouteTransitionStyle.slide;
+
+        final routeName = settings.name;
+
+        if (!widget.routes.containsKey(routeName)) {
+          throw Exception('route [$routeName] is undefined');
+        }
+
+        switch (transitionStyle) {
+          case RouteTransitionStyle.fadeIn:
+            return FadeInRoute(
+              builder: (context) => widget.routes[routeName!]!(params),
+              settings: settings,
+            );
+          case RouteTransitionStyle.fadeInUp:
+            return FadeInUpRoute(
+              builder: (context) => widget.routes[routeName!]!(params),
+              settings: settings,
+            );
+          case RouteTransitionStyle.slide:
+          default:
+            return SlidePageRoute(
+              builder: (context) => widget.routes[routeName!]!(params),
+              settings: settings,
+            );
+        }
+      },
       builder: widget.builder,
       title: widget.title,
       onGenerateTitle: widget.onGenerateTitle,

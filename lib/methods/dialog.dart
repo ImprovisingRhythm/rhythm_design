@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/widgets.dart' hide Router;
 
 import '../app/global_navigator.dart';
 import '../app/theme_provider.dart';
@@ -14,7 +14,7 @@ Future<T?> showDialog<T>({
   context ??= GlobalNavigator.context;
 
   return Navigator.of(context).push<T>(
-    DialogModalRoute(
+    DialogRoute(
       builder: builder,
       barrierDismissible: barrierDismissible,
       barrierColor: ThemeProvider.of(context).modalBarrierColor,

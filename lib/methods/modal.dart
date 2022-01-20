@@ -3,19 +3,21 @@ import 'package:flutter/widgets.dart' hide PopupRoute;
 import '../app/global_navigator.dart';
 import '../app/theme_provider.dart';
 import '../transitions/bottom_sheet.dart';
-import '../transitions/fade_in_modal.dart';
+import '../transitions/fade_in.dart';
 
 Future<T?> showModal<T>({
   required WidgetBuilder builder,
   BuildContext? context,
+  bool backGestureEnabled = false,
   bool barrierDismissible = true,
   Color? barrierColor,
 }) {
   context ??= GlobalNavigator.context;
 
   return Navigator.of(context).push<T>(
-    FadeInModalRoute(
+    FadeInRoute(
       builder: builder,
+      backGestureEnabled: backGestureEnabled,
       barrierDismissible: barrierDismissible,
       barrierColor: ThemeProvider.of(context).modalBarrierColor,
     ),

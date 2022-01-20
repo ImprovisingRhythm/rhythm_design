@@ -63,7 +63,6 @@ export 'themes/light.dart';
 export 'transitions/bottom_sheet.dart';
 export 'transitions/dialog.dart';
 export 'transitions/fade_in.dart';
-export 'transitions/fade_in_modal.dart';
 export 'transitions/fade_in_up.dart';
 export 'transitions/slide.dart';
 export 'utils/async.dart';

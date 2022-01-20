@@ -122,7 +122,7 @@ abstract class DesignToken {
   }
 
   /// Checkbox props
-  double get checkboxSize => 20.0;
+  double get checkboxSize => 18.0;
   TextStyle get checkboxTitleStyle {
     return TextStyle(
       fontSize: 16.0,

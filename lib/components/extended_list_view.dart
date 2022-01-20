@@ -102,6 +102,8 @@ class ExtendedListViewState extends State<ExtendedListView> {
       widget.onRefresh!(),
       Future.delayed(widget.forceRefreshTime),
     ]);
+
+    _listModel.hasMore = true;
   }
 
   void _scrollToFocusedObject() {

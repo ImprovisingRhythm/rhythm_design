@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 
-class DialogModalRoute<T> extends ModalRoute<T> {
-  DialogModalRoute({
+class DialogRoute<T> extends PageRoute<T> {
+  DialogRoute({
     RouteSettings? settings,
     required this.builder,
     this.barrierDismissible = false,
